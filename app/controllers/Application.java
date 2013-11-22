@@ -1,7 +1,10 @@
 package controllers;
 
 import play.*;
+import play.cache.Cache;
 import play.data.validation.Required;
+import play.libs.Codec;
+import play.libs.Images;
 import play.mvc.*;
 
 import java.util.*;
@@ -28,17 +31,25 @@ public class Application extends BlogApplicationBaseController {
 			logAndDisplayError("Článek s id %d nebyl nalezen v databázi", id);
 		}
 
-	    render(clanek);
+		String randomID = Codec.UUID();
+
+	    render(clanek, randomID);
 	}
 
 
-	public static void pridatKomentar(Long postId, @Required String autor, @Required String komentar) {
+	public static void pridatKomentar(Long postId,
+	                                  @Required String autor,
+	                                  @Required String komentar,
+	                                  @Required String code,
+	                                  String randomID)  {
+
 	    Clanek clanek = Clanek.findById(postId);
 
 		if (clanek == null) {
 			logAndDisplayError("Článek s id %d nebyl nalezen v databázi", postId);
 		}
 
+		validation.equals(code, Cache.get(randomID)).message("Kód z obrázku byl špatně opsán.");
 		if (validation.hasErrors()) {
             render("Application/show.html", clanek);
         }
@@ -48,5 +59,11 @@ public class Application extends BlogApplicationBaseController {
 	}
 
 
+	public static void captcha(String id) {
+		Images.Captcha captcha = Images.captcha();
+		String code = captcha.getText("#000");
+		Cache.set(id, code, "10mn");
+		renderBinary(captcha);
+	}
 
 }

@@ -5,6 +5,7 @@
 !.gitignore
 
 # Ignore Play! working directory #
+play
 db
 eclipse
 lib
@@ -19,4 +20,6 @@ tmp
 test-result
 server.pid
 *.iml
+*.ipr
+*.iws
 *.eml
