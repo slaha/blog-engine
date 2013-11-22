@@ -1,0 +1,26 @@
+#{extends 'main.html' /}
+#{set title:'Úvodní stránka' /}
+
+#{if nejnovejsiClanek}
+
+    #{clanek clanek:nejnovejsiClanek, as:'full' /}
+
+    #{if starsiClanky.size()}
+
+    <div class="older-posts">
+        <h3>Starší články</h3>
+
+        #{list items:starsiClanky, as:'starsi'}
+            #{clanek clanek:starsi, as:'teaser' /}
+        #{/list}
+    </div>
+
+    #{/if}
+
+#{/if}
+
+#{else}
+<div class="empty">
+    There is currently nothing to read here.
+</div>
+#{/else}

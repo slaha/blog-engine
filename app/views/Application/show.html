@@ -1,0 +1,46 @@
+#{extends 'main.html' /}
+#{set title:clanek.titulek /}
+
+
+<ul id="pagination">
+#{if clanek.predchozi()}
+    <li id="previous">
+        <a href="@{Application.show(clanek.predchozi().id)}">
+        ${clanek.predchozi().titulek}
+        </a>
+    </li>
+#{/if}
+#{if clanek.nasledujici()}
+    <li id="previous">
+        <a href="@{Application.show(clanek.nasledujici().id)}">
+        ${clanek.nasledujici().titulek}
+        </a>
+    </li>
+#{/if}
+</ul>
+
+#{if flash.success}
+    <p class="success">${flash.success}</p>
+#{/if}
+
+#{clanek clanek:clanek, as:'full' /}
+
+#{form @Application.pridatKomentar(clanek.id)}
+
+    #{ifErrors}
+        <p class="error">
+            Vyplňte prosím všechna pole
+        </p>
+    #{/ifErrors}
+<p>
+    <label for="komentar">Your name: </label>
+    <input type="text" name="autor" id="autor" value="${params.autor}"/>
+</p>
+<p>
+    <label for="komentar">Your message: </label>
+    <textarea name="komentar" id="komentar">${params.komentar}</textarea>
+</p>
+<p>
+    <input type="submit" value="Submit your comment" />
+</p>
+#{/form}

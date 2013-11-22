@@ -1,0 +1,38 @@
+<!DOCTYPE html >
+<html>
+<head>
+    <title>#{get 'title' /} → ${blogNazev}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/main.css'}" />
+    <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}" />
+</head>
+<body>
+
+<div id="header">
+    <div id="logo">
+        yabe.
+    </div>
+    <ul id="tools">
+        <li>
+            <a href="#">Log in to write something</a>
+        </li>
+    </ul>
+    <div id="title">
+        <span class="about">About this blog</span>
+        <h1><a href="@{Application.index()}">${blogNazev}</a></h1>
+        <h2>${blogPodtitulek}</h2>
+    </div>
+</div>
+
+<div id="main">
+#{doLayout /}
+</div>
+
+<p id="footer">
+    Blogovací systém je naprogramován s pomocí
+    <a href="http://www.playframework.org">Play frameworku</a>.<br>
+    Jan Šlahora 2013
+</p>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<div class="clanek ${_as == 'teaser' ? 'teaser' : ''}">
+    <h2 class="post-title">
+        <a href="@{Application.show(_clanek.id)}">${_clanek.titulek}</a>
+    </h2>
+    <div class="post-metadata">
+        <span class="post-author">od ${_clanek.autor.celeJmeno}</span>,
+        <span class="post-date">${_clanek.datumNapsani.format('dd. MMMM yyyy')}</span>
+    #{if _as != 'full'}
+        <span class="post-comments">
+                &nbsp;|&nbsp; ${_clanek.komentare.size() ?: 'no'}
+
+            #{if _clanek.komentare}
+                , poslední od ${_clanek.komentare[-1].autor}
+            #{/if}
+            </span>
+    #{/if}
+    </div>
+#{if _as != 'teaser'}
+    <div class="post-content">
+        <div class="about">Detail: </div>
+    ${_clanek.text.nl2br()}
+    </div>
+#{/if}
+</div>
+
+#{if _as == 'full'}
+<div class="comments">
+    <h3>
+    ${_clanek.komentare.size() ?: 'no'}
+        comment${_clanek.komentare.size().pluralize()}
+    </h3>
+
+    #{list items:_clanek.komentare, as:'komentar'}
+        <div class="comment">
+            <div class="comment-metadata">
+                <span class="comment-author">by ${komentar.autor},</span>
+                    <span class="comment-date">
+                        ${komentar.datumPoslani.format('dd. MMMM yyyy')}
+                    </span>
+            </div>
+            <div class="comment-content">
+                <div class="about">Detail: </div>
+            ${komentar.komentar.escape().nl2br()}
+            </div>
+        </div>
+    #{/list}
+
+</div>
+#{/if}
