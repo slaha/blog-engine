@@ -12,7 +12,9 @@ public class Admin extends BlogApplicationBaseController {
 
 
     public static void index() {
-	    render();
+	    String user = Security.connected();
+        List<Clanek> clanky = Clanek.find("autor.email", user).fetch();
+        render(clanky);
     }
 
 }

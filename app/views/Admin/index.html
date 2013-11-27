@@ -1,0 +1,35 @@
+#{extends 'main.html' /}
+#{set title:'Administrace' /}
+
+
+
+#{if clanky}
+
+    <table class="width-100">
+	<thead>
+		<tr>
+			<th>Datum</th>
+			<th>Název</th>
+			<th>Kategorie</th>
+			<th>Komentářů</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+        #{list items:clanky, as:'clanek'}
+        <tr>
+            <td>${clanek.datumNapsani.format('dd.MM.yyyy') }</td>
+            <td>${clanek.titulek }</td>
+            <td>${clanek.kategorie }</td>
+            <td>${clanek.komentare.size() }</td>
+            <td><a href="#" class="btn btn-blue">Upravit</a> <a href="#" class="btn btn-red">Smazat</a></td>
+        </tr>
+        #{/list}
+
+	</tbody>
+</table>
+
+#{/if}
+#{else }
+<p>Zatím žádné články</p>
+#{/else}
