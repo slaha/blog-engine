@@ -18,4 +18,8 @@ public class Uzivatel extends Model {
         this.heslo = heslo;
         this.celeJmeno = celeJmeno;
     }
+
+	public static Uzivatel login(String username, String password) {
+		return find("byEmailAndHeslo", username, password).first();
+	}
 }

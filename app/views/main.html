@@ -3,36 +3,72 @@
 <head>
     <title>#{get 'title' /} → ${blogNazev}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/main.css'}" />
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/kube.css'}" />
     <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}" />
 </head>
 <body>
+<div class="units-row">
+    <div class="unit-centered unit-70">
+        <div class="units-row-end">
+            <div id="header">
+                <div id="logo">
+                    yabe.
+                </div>
+                <ul id="tools">
+                    <li>
+                        <a href="#">Log in to write something</a>
+                    </li>
+                </ul>
+                <div id="title">
+                    <span class="about">About this blog</span>
+                    <h1><a href="@{Application.index()}">${blogNazev}</a></h1>
+                    <h2>${blogPodtitulek}</h2>
+                </div>
+            </div>
+        </div>
 
-<div id="header">
-    <div id="logo">
-        yabe.
-    </div>
-    <ul id="tools">
-        <li>
-            <a href="#">Log in to write something</a>
-        </li>
-    </ul>
-    <div id="title">
-        <span class="about">About this blog</span>
-        <h1><a href="@{Application.index()}">${blogNazev}</a></h1>
-        <h2>${blogPodtitulek}</h2>
+        <div class="units-row-end">
+            <div class="unit-70" id="main">
+            #{doLayout /}
+            </div>
+
+            <div class="unit-30">
+                <nav class="nav-v">
+                    <ul>
+                        #{list items:vsechnyKategorie, as:'kat'}
+                        <li><a href="#">${kat}</a></li>
+                        #{/list}
+
+                        #{ifnot uzivatel}
+                        <li><a href="/login">Přihlásit se</a></li>
+                        <li><a href="#">${uzivatel.celeJmeno}</a></li>
+                        #{/ifnot}
+                        #{else }
+                        <li><a href="@{Admin.index()}" title="${uzivatel.celeJmeno}">Administrace</a></li>
+                            <li>
+                                <ul>
+                                    <li><a href="#">Item 1</a></li>
+                                    <li><span>Item 2</span></li>
+                                    <li><a href="#">Item 3</a>
+                                </ul>
+                            </li>
+                            <li>
+                                <a href="@{Secure.logout()}">Odhlásit</a>
+                            </li>
+                        #{/else}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div class="units-row-end">
+            <p id="footer">
+                Blogovací systém je naprogramován s pomocí
+                <a href="http://www.playframework.org">Play frameworku</a>.<br>
+                Jan Šlahora 2013
+            </p>
+        </div>
     </div>
 </div>
-
-<div id="main">
-#{doLayout /}
-</div>
-
-<p id="footer">
-    Blogovací systém je naprogramován s pomocí
-    <a href="http://www.playframework.org">Play frameworku</a>.<br>
-    Jan Šlahora 2013
-</p>
-
 </body>
 </html>

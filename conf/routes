@@ -6,6 +6,14 @@
 GET     /                                       Application.index
 GET     /clanek/{id}                            Application.show
 POST    /clanek/{postId}/komentare              Application.pridatKomentar
+
+# Import CRUD routes
+GET     /admin/?                                Admin.index
+*      /admin                                   module:crud
+
+# Import Secure routes
+*       /                                       module:secure
+
 # Ignore favicon requests
 GET     /favicon.ico                            404
 

@@ -1,5 +1,6 @@
 package models;
 
+import play.data.validation.Required;
 import play.db.jpa.Model;
 
 import javax.persistence.*;
@@ -11,6 +12,11 @@ import java.util.List;
 @Entity
 public class Clanek extends Model {
 
+	@Required
+	@ManyToOne
+	public Kategorie kategorie;
+
+	@Required
 	public String titulek;
 
     public Date datumNapsani;
@@ -24,10 +30,11 @@ public class Clanek extends Model {
 	@OneToMany(mappedBy="clanek", cascade= CascadeType.ALL)
 	public List<Komentar> komentare;
 
-    public Clanek(Uzivatel autor, String titulek, String text) {
+    public Clanek(Uzivatel autor, String titulek, String text, Kategorie kategorie) {
         this.autor = autor;
         this.titulek = titulek;
         this.text = text;
+	    this.kategorie = kategorie;
         this.datumNapsani = new Date();
 	    this.komentare = new ArrayList<Komentar>();
     }
