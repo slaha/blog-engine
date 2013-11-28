@@ -1,6 +1,7 @@
 package models;
 
 import play.data.validation.Required;
+import play.data.validation.Unique;
 import play.db.jpa.Model;
 
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
 public class Kategorie extends Model {
 
 	@Required
+	@Unique
 	private String jmeno;
 
 	public Kategorie(String jmeno) {

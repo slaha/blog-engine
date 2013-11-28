@@ -1,0 +1,43 @@
+#{extends 'main.html' /}
+#{set title:'Správa článků' /}
+
+<h1>
+    #{get 'title'/}
+</h1>
+
+<p id="newPost" >
+	<a href="@{formClanek()}" class="btn btn-green"><i class="fa fa-pencil"></i> Napsat nový článek</a>
+</p>
+
+#{include '_flash.html'/}
+
+#{if clanky}
+
+    <table class="width-100">
+	<thead>
+		<tr>
+			<th>Datum</th>
+			<th>Název</th>
+			<th>Kategorie</th>
+			<th>Komentářů</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+        #{list items:clanky, as:'clanek'}
+        <tr>
+            <td>${clanek.datumNapsani.format('dd.MM.yyyy') }</td>
+            <td><a href="@{Application.show(clanek.id)}">${clanek.titulek }</a></td>
+            <td>${clanek.kategorie }</td>
+            <td>${clanek.komentare.size() }</td>
+            <td><a href="@{Admin.formClanek(clanek.id)}" class="btn btn-blue" title="Upravit"><i class="fa fa-pencil-square-o"> </i></a> <a href="@{Admin.smazatClanek(clanek.id)}" class="btn btn-red" title="Smazat"><i class="fa fa-trash-o"></i></a></td>
+        </tr>
+        #{/list}
+
+	</tbody>
+</table>
+
+#{/if}
+#{else }
+<p>Zatím žádné články</p>
+#{/else}

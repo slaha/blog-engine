@@ -5,11 +5,33 @@
 # Home page
 GET     /                                       Application.index
 GET     /clanek/{id}                            Application.show
+GET     /kategorie/{kategorie}                  Application.kategorie
 POST    /clanek/{postId}/komentare              Application.pridatKomentar
 
-# Import CRUD routes
+# Admin
 GET     /admin/?                                Admin.index
-*      /admin                                   module:crud
+
+
+GET     /admin/clanky                           Admin.clanky
+GET     /admin/clanky/{id}                      Admin.formClanek
+GET     /admin/novy/clanek                      Admin.formClanek
+POST    /admin/clanky/{id}                      Admin.ulozitClanek
+POST    /admin/novy/clanky                      Admin.ulozitClanek
+GET     /admin/clanky/smazat/{id}               Admin.smazatClanek
+
+GET     /admin/komentare                        Admin.komentare
+GET     /admin/komentare/{id}                   Admin.formKomentar
+POST    /admin/komentare/{id}                   Admin.ulozitKomentar
+POST    /admin/komentare/novy                   Admin.ulozitKomentar
+GET     /admin/komentare/smazat/{id}            Admin.smazatKomentar
+
+GET     /admin/kategorie                        Admin.kategorie
+GET     /admin/kategorie/{id}                   Admin.formKategorie
+GET     /admin/novy/kategorie                   Admin.formKategorie
+POST    /admin/kategorie/{id}                   Admin.ulozitKategorii
+POST    /admin/novy/kategorie                   Admin.ulozitKategorii
+GET     /admin/kategorie/smazat/{id}            Admin.smazatKategorii
+*       /admin                                  module:crud
 
 # Import Secure routes
 *       /                                       module:secure

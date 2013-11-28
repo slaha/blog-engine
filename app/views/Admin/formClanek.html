@@ -1,0 +1,56 @@
+#{extends 'main.html' /}
+#{ifnot clanek?.id}
+#{set title:'Vytváření nového článku' /}
+#{/ifnot}
+#{else}
+#{set title:'Editace článku ' + clanek.titulek  /}
+#{/else}
+
+<h1>
+#{get 'title'/}
+</h1>
+
+#{form @ulozitClanek(clanek?.id)}
+
+    #{ifErrors}
+    <p class="error">
+        Please correct these errors.
+    </p>
+    #{/ifErrors}
+
+<p>
+    #{field 'titulek'}
+        <label>Název článku:</label>
+        <input type="text" name="${field.name}" value="${clanek?.titulek}" />
+        <span class="error">#{error 'clanek.titulek' /}</span>
+    #{/field}
+</p>
+<script type="text/javascript" src="@{'/public/javascripts/tinymce/tinymce.min.js'}"></script>
+<script type="text/javascript">
+tinymce.init({
+    selector: "textarea",
+    height: 400
+ });
+</script>
+<p>
+    #{field 'text'}
+        <label>Text článku:</label>
+        <textarea name="${field.name}">
+        ${clanek?.text}
+        </textarea>
+        <span class="error">#{error 'clanek.text' /}</span>
+    #{/field}
+</p>
+
+<p>
+    #{field 'kategorieId'}
+        <label>Kategorie:</label>
+        #{select name:'kategorieId', items:kategories, value:clanek?.kategorie.id}#{/select}
+    #{/field}
+</p>
+
+<p>
+    <input type="submit" value="Publikovat" />
+</p>
+
+#{/form}

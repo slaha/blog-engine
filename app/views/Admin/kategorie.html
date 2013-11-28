@@ -1,0 +1,43 @@
+#{extends 'main.html' /}
+#{set title:'Správa kategorií' /}
+
+<h1>
+#{get 'title'/}
+</h1>
+
+#{include '_flash.html'/}
+
+<p id="newPost" >
+    <a href="@{formKategorie()}" class="btn btn-green"><i class="fa fa-pencil"></i> Nová kategorie</a>
+</p>
+
+
+#{if kategorie}
+
+    <table class="width-100">
+	<thead>
+		<tr>
+			<th>Název</th>
+			<th>Počet článků</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+        #{list items:kategorie, as:'kat'}
+        <tr>
+            <td>${kat.jmeno}</td>
+            <td>${kat.pocet}</td>
+            <td>
+                <a href="@{Admin.formKategorie(kat.id)}" class="btn btn-blue" title="Upravit"><i class="fa fa-pencil"></i></a>
+                <a href="@{Admin.smazatKategorii(kat.id)}" class="btn btn-red" title="Smazat"><i class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
+        #{/list}
+
+	</tbody>
+</table>
+
+#{/if}
+#{else }
+<p>Zatím žádné komentáře</p>
+#{/else}

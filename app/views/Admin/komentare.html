@@ -1,0 +1,39 @@
+#{extends 'main.html' /}
+#{set title:'Správa komentářů' /}
+
+<h1>
+#{get 'title'/}
+</h1>
+
+#{include '_flash.html'/}
+
+#{if komentare}
+
+    <table class="width-100">
+	<thead>
+		<tr>
+			<th>Datum</th>
+			<th>Autor</th>
+			<th>Text</th>
+			<th>Článek</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+        #{list items:komentare, as:'komentar'}
+        <tr>
+            <td>${komentar.datumPoslani.format('dd.MM.yyyy HH.mm') }</td>
+            <td>${komentar.autor }</td>
+            <td>${komentar.komentar }</td>
+            <td>${komentar.clanek}</td>
+            <td><a href="@{Admin.smazatKomentar(komentar.id)}" class="btn btn-red" title="Smazat"><i class="fa fa-trash-o"></i></a></td>
+        </tr>
+        #{/list}
+
+	</tbody>
+</table>
+
+#{/if}
+#{else }
+<p>Zatím žádné komentáře</p>
+#{/else}

@@ -1,0 +1,33 @@
+#{extends 'main.html' /}
+#{ifnot kategorie?.id}
+    #{set title:'Vytváření nové kategorie' /}
+#{/ifnot}
+#{else}
+    #{set title:'Editace kategorie "' + kategorie.jmeno + '"' /}
+#{/else}
+
+<h1>
+#{get 'title'/}
+</h1>
+
+#{form @ulozitKategorii(kategorie?.id)}
+
+    #{ifErrors}
+    <p class="error">
+        Please correct these errors.
+    </p>
+    #{/ifErrors}
+
+<p>
+    #{field 'nazev'}
+        <label>Název kategorie:</label>
+        <input type="text" name="${field.name}" value="${kategorie?.jmeno}" />
+        <span class="error">#{error 'clanek.titulek' /}</span>
+    #{/field}
+</p>
+
+<p>
+    <input type="submit" value="Uložit" />
+</p>
+
+#{/form}

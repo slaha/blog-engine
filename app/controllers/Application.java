@@ -36,6 +36,17 @@ public class Application extends BlogApplicationBaseController {
 	    render(clanek, randomID);
 	}
 
+	public static void kategorie(String kategorie) {
+		Kategorie k = Kategorie.find("byJmeno", kategorie).first();
+		if (k == null) {
+			logAndDisplayError("Kategorie %s nebyla nalezena", kategorie);
+			return;
+		}
+	    List<Clanek> clanky = Clanek.find("byKategorie", k).fetch();
+
+	    render(clanky, kategorie);
+	}
+
 
 	public static void pridatKomentar(Long postId,
 	                                  @Required String autor,

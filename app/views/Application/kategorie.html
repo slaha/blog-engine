@@ -1,0 +1,16 @@
+#{extends 'main.html' /}
+#{set title:'Úvodní stránka' /}
+
+#{if clanky}
+    <h1>Články v kategorii "${kategorie}"</h1>
+
+    #{list items:clanky, as:'clanek'}
+        #{clanek clanek:clanek, as:'teaser' /}
+    #{/list}
+#{/if}
+
+#{else}
+<div class="empty">
+    V kategorii ${kategorie} nebyly dosud publikovány žádné články.
+</div>
+#{/else}
