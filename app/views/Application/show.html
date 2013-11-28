@@ -2,30 +2,13 @@
 #{set title:clanek.titulek /}
 
 
-<ul id="pagination">
-#{if clanek.predchozi()}
-    <li id="previous">
-        <a href="@{Application.show(clanek.predchozi().id)}">
-        ${clanek.predchozi().titulek}
-        </a>
-    </li>
-#{/if}
-#{if clanek.nasledujici()}
-    <li id="previous">
-        <a href="@{Application.show(clanek.nasledujici().id)}">
-        ${clanek.nasledujici().titulek}
-        </a>
-    </li>
-#{/if}
-</ul>
-
 #{if flash.success}
     <p class="success">${flash.success}</p>
 #{/if}
 
-#{clanek clanek:clanek, as:'full' /}
+#{clanek clanek:clanek, as:'full', predchozi:predchozi, nasledujici:nasledujici /}
 
-#{form @Application.pridatKomentar(clanek.id)}
+#{form @Application.pridatKomentar(clanek.id), class:'forms forms-columnar'}
 
     #{ifErrors}
         <p class="error">
@@ -33,21 +16,23 @@
         </p>
     #{/ifErrors}
 <p>
-    <label for="komentar">Your name: </label>
-    <input type="text" name="autor" id="autor" value="${params.autor}"/>
+    <label for="autor">Jméno:</label>
+    <input type="text" name="autor" id="autor" value="${params.autor}" class="width-60"/>
 </p>
 <p>
-    <label for="komentar">Your message: </label>
-    <textarea name="komentar" id="komentar">${params.komentar}</textarea>
+    <label for="komentar">Komentář: </label>
+    <textarea name="komentar" id="komentar" class="width-100 height-100px">${params.komentar}</textarea>
 </p>
 <p>
-    <label for="code">Please type the code below: </label>
-    <img src="@{Application.captcha(randomID)}" />
-    <br />
-    <input type="text" name="code" id="code" size="18" value="" />
-    <input type="hidden" name="randomID" value="${randomID}" />
+    <label for="code">Kód z obrázku: </label>
+        <span class="btn-group">
+            <input type="text" name="code" id="code" size="18" value="" />
+            <input type="hidden" name="randomID" value="${randomID}" />
+
+            <img src="@{Application.captcha(randomID)}" />
+        </span>
 </p>
 <p>
-    <input type="submit" value="Submit your comment" />
+    <input type="submit" class="btn" value="Odeslat komentář" />
 </p>
 #{/form}

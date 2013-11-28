@@ -5,7 +5,9 @@
 # Home page
 GET     /                                       Application.index
 GET     /clanek/{id}                            Application.show
-GET     /kategorie/{kategorie}                  Application.kategorie
+GET     /tisk/{id}                              Application.pdf
+GET     /pdf/{id}                               Application.pdf
+GET     /kategorie/{kategorieUrl}               Application.kategorie
 POST    /clanek/{postId}/komentare              Application.pridatKomentar
 
 # Admin

@@ -1,7 +1,7 @@
 <div class="clanek ${_as == 'teaser' ? 'teaser' : ''}">
-    <h2 class="post-title">
+    <h1 class="post-title">
         <a href="@{Application.show(_clanek.id)}">${_clanek.titulek}</a>
-    </h2>
+    </h1>
     <div class="post-metadata">
         <span class="post-author">od ${_clanek.autor.celeJmeno}</span>,
         <span class="post-date">${_clanek.datumNapsani.format('dd. MMMM yyyy')}</span>
@@ -23,6 +23,23 @@
 </div>
 
 #{if _as == 'full'}
+<div class="text-centered">
+    <a href="@{Application.tisk(_clanek.id)}" class="btn btn-yellow">Tisk</a>
+    <a href="@{Application.pdf(_clanek.id)}" class="btn btn-black">Export PDF</a>
+    <a href="#" class="btn btn-blue">Twitter</a>
+    <a href="#" class="btn btn-red">G+</a>
+
+</div>
+
+<ul class="pagination">
+    #{if _predchozi}
+        <li class="pagination-older"><a href="@{Application.show(_predchozi.id)}">&larr; ${_predchozi.titulek}</a></li>
+    #{/if}
+    #{if _nasledujici}
+        <li class="pagination-newest pagination-pull"><a href="@{Application.show(_nasledujici.id)}">${_nasledujici.titulek} &rarr;</a></li>
+    #{/if}
+</ul>
+
 <div class="comments">
     <h3>
     ${_clanek.komentare.size() ?: 'no'}
@@ -30,18 +47,16 @@
     </h3>
 
     #{list items:_clanek.komentare, as:'komentar'}
-        <div class="comment">
-            <div class="comment-metadata">
-                <span class="comment-author">by ${komentar.autor},</span>
-                    <span class="comment-date">
-                        ${komentar.datumPoslani.format('dd. MMMM yyyy')}
-                    </span>
+        <section class="caption group">
+            <div class="question bubble">
+                ${komentar.komentar.escape().nl2br()}
+                <span class="arrow border"/>
+                <span class="arrow fill"/>
             </div>
-            <div class="comment-content">
-                <div class="about">Detail: </div>
-            ${komentar.komentar.escape().nl2br()}
+            <div class="asker group">
+                    <span class="asker">napsal ${komentar.autor} dne ${komentar.datumPoslani.format('dd. MMMM yyyy')} v ${komentar.datumPoslani.format('hh.MM')} </span>
             </div>
-        </div>
+        </section>
     #{/list}
 
 </div>

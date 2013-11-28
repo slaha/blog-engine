@@ -40,7 +40,7 @@
                 <nav class="nav-v">
                     <ul>
                         #{list items:vsechnyKategorie, as:'kat'}
-                        <li><a href="@{Application.kategorie(kat)}">${kat}</a></li>
+                        <li><a href="@{Application.kategorie(kat.url)}">${kat}</a></li>
                         #{/list}
 
                         #{ifnot uzivatel}

@@ -7,6 +7,8 @@ import play.Play;
 import play.mvc.Before;
 import play.mvc.Controller;
 
+import java.util.Collection;
+
 /** Created with IntelliJ IDEA. User: slaha Date: 22.11.13 Time: 15:38 */
 public abstract class BlogApplicationBaseController extends Controller {
 
@@ -18,7 +20,7 @@ public abstract class BlogApplicationBaseController extends Controller {
         }
 		renderArgs.put("blogNazev", Play.configuration.getProperty("blog.title"));
 		renderArgs.put("blogPodtitulek", Play.configuration.getProperty("blog.baseline"));
-		renderArgs.put("vsechnyKategorie", Kategorie.findAll());
+		renderArgs.put("vsechnyKategorie", Kategorie.find("order by jmeno").fetch());
 	}
 
 

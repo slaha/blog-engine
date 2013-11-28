@@ -1,16 +1,16 @@
 package controllers;
 
-import play.*;
 import play.cache.Cache;
 import play.data.validation.Required;
 import play.libs.Codec;
 import play.libs.Images;
-import play.mvc.*;
 
 import java.util.*;
 
 import models.*;
+import utils.StringUtils;
 
+import static play.modules.pdf.PDF.*;
 public class Application extends BlogApplicationBaseController {
 
 
@@ -33,16 +33,43 @@ public class Application extends BlogApplicationBaseController {
 
 		String randomID = Codec.UUID();
 
-	    render(clanek, randomID);
+		Clanek predchozi = clanek.predchozi();
+		Clanek nasledujici = clanek.nasledujici();
+	    render(clanek, predchozi, nasledujici, randomID);
 	}
 
-	public static void kategorie(String kategorie) {
-		Kategorie k = Kategorie.find("byJmeno", kategorie).first();
-		if (k == null) {
-			logAndDisplayError("Kategorie %s nebyla nalezena", kategorie);
+	public static void tisk(Long id) {
+	    Clanek clanek = Clanek.findById(id);
+
+		if (clanek == null) {
+			logAndDisplayError("Článek s id %d nebyl nalezen v databázi", id);
+		}
+
+		renderTemplate("Application/pdf.html", clanek);
+	}
+
+	public static void pdf(Long id) {
+	    Clanek clanek = Clanek.findById(id);
+
+		if (clanek == null) {
+			logAndDisplayError("Článek s id %d nebyl nalezen v databázi", id);
+		}
+
+		String title = StringUtils.normalize(clanek.titulek);
+		Options options = new Options();
+		options.filename = title + ".pdf";
+
+		renderPDF(clanek, options, title);
+	}
+
+
+	public static void kategorie(String kategorieUrl) {
+		Kategorie kategorie = Kategorie.find("byUrl", kategorieUrl).first();
+		if (kategorie == null) {
+			logAndDisplayError("Kategorie %s nebyla nalezena", kategorieUrl);
 			return;
 		}
-	    List<Clanek> clanky = Clanek.find("byKategorie", k).fetch();
+	    List<Clanek> clanky = Clanek.find("byKategorie", kategorie).fetch();
 
 	    render(clanky, kategorie);
 	}
