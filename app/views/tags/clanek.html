@@ -7,10 +7,12 @@
         <span class="post-date">${_clanek.datumNapsani.format('dd. MMMM yyyy')}</span>
     #{if _as != 'full'}
         <span class="post-comments">
-                &nbsp;|&nbsp; ${_clanek.komentare.size() ?: 'no'}
+                &nbsp;|&nbsp; ${_clanek.komentare.size() == 0 ? 'Žádné komentáře' :
+                _clanek.komentare.size() + ((_clanek.komentare.size() == 1)? ' komentář':
+                ((_clanek.komentare.size() < 5)?' komentáře':' komentářů'))}
 
             #{if _clanek.komentare}
-                , poslední od ${_clanek.komentare[-1].autor}
+            , poslední od ${_clanek.komentare[-1].autor}
             #{/if}
             </span>
     #{/if}
@@ -42,8 +44,9 @@
 
 <div class="comments">
     <h3>
-    ${_clanek.komentare.size() ?: 'no'}
-        comment${_clanek.komentare.size().pluralize()}
+    ${_clanek.komentare.size() == 0 ? 'Žádné komentáře' :
+                _clanek.komentare.size() + ((_clanek.komentare.size() == 1)? ' komentář':
+                ((_clanek.komentare.size() < 5)?' komentáře':' komentářů'))}
     </h3>
 
     #{list items:_clanek.komentare, as:'komentar'}

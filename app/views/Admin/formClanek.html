@@ -10,7 +10,7 @@
 #{get 'title'/}
 </h1>
 
-#{form @ulozitClanek(clanek?.id)}
+#{form @ulozitClanek(clanek?.id), class:'forms'}
 
     #{ifErrors}
     <p class="error">
@@ -20,9 +20,10 @@
 
 <p>
     #{field 'titulek'}
-        <label>Název článku:</label>
-        <input type="text" name="${field.name}" value="${clanek?.titulek}" />
-        <span class="error">#{error 'clanek.titulek' /}</span>
+        <label>Název článku:
+            <input type="text" name="${field.name}" value="${clanek?.titulek}" class='width-100'/>
+            <span class="error">#{error 'clanek.titulek' /}</span>
+        </label>
     #{/field}
 </p>
 <script type="text/javascript" src="@{'/public/javascripts/tinymce/tinymce.min.js'}"></script>
@@ -34,23 +35,25 @@ tinymce.init({
 </script>
 <p>
     #{field 'text'}
-        <label>Text článku:</label>
-        <textarea name="${field.name}">
-        ${clanek?.text}
-        </textarea>
-        <span class="error">#{error 'clanek.text' /}</span>
+        <label>Text článku:
+            <textarea name="${field.name}">
+            ${clanek?.text}
+            </textarea>
+            <span class="error">#{error 'clanek.text' /}</span>
+        </label>
     #{/field}
 </p>
 
 <p>
     #{field 'kategorieId'}
-        <label>Kategorie:</label>
-        #{select name:'kategorieId', items:kategories, value:clanek?.kategorie.id}#{/select}
+        <label>Kategorie:
+            #{select name:'kategorieId', items:kategories, value:clanek?.kategorie.id, class:'width-50'}#{/select}
+        </label>
     #{/field}
 </p>
 
 <p>
-    <input type="submit" value="Publikovat" />
+    <input type="submit" class="btn" value="Publikovat" />
 </p>
 
 #{/form}

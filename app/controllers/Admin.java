@@ -5,10 +5,11 @@ import models.Kategorie;
 import models.Komentar;
 import models.Uzivatel;
 import play.Logger;
+import play.mvc.With;
 
 import java.util.List;
 import java.util.Map;
-
+@With(Secure.class)
 public class Admin extends BlogApplicationBaseController {
 
 

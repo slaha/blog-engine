@@ -19,12 +19,12 @@
 </head>
 <body>
 <div class="units-row">
-    <div class="unit-centered unit-70">
+    <div class="unit-centered unit-70" id="content">
         <div class="units-row-end">
             <div id="header">
                 <div id="title">
                     <hgroup>
-                        <h1><a href="@{Application.index()}">${blogNazev}</a></h1>
+                        <h1 class="header"><a href="@{Application.index()}">${blogNazev}</a></h1>
                         <h1 class="subheader">${blogPodtitulek}</h1>
                     </hgroup>
                 </div>
@@ -32,11 +32,11 @@
         </div>
 
         <div class="units-row-end">
-            <div class="unit-70" id="main">
+            <div class="unit-80" id="main">
             #{doLayout /}
             </div>
 
-            <div class="unit-30">
+            <div class="unit-20">
                 <nav class="nav-v">
                     <ul>
                         #{list items:vsechnyKategorie, as:'kat'}
