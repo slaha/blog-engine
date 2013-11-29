@@ -25,7 +25,7 @@ GET     /admin/komentare                        Admin.komentare
 GET     /admin/komentare/{id}                   Admin.formKomentar
 POST    /admin/komentare/{id}                   Admin.ulozitKomentar
 POST    /admin/komentare/novy                   Admin.ulozitKomentar
-GET     /admin/komentare/smazat/{id}            Admin.smazatKomentar
+GET     /admin/komentare/smazat/{id}/kat/{kategorieId}/clanek/{clanekId}            Admin.smazatKomentar
 
 GET     /admin/kategorie                        Admin.kategorie
 GET     /admin/kategorie/{id}                   Admin.formKategorie
@@ -33,9 +33,14 @@ GET     /admin/novy/kategorie                   Admin.formKategorie
 POST    /admin/kategorie/{id}                   Admin.ulozitKategorii
 POST    /admin/novy/kategorie                   Admin.ulozitKategorii
 GET     /admin/kategorie/smazat/{id}            Admin.smazatKategorii
+
+GET     /admin/profil                           Admin.profil
+POST    /admin/profil/{id}                       Admin.ulozitProfil
+
 *       /admin                                  module:crud
 
 # Import Secure routes
+GET     /login                                  Login.login
 *       /                                       module:secure
 
 # Ignore favicon requests

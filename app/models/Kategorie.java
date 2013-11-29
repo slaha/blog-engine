@@ -6,6 +6,7 @@ import play.db.jpa.Model;
 import utils.StringUtils;
 
 import javax.persistence.Entity;
+import java.util.List;
 
 /** Created with IntelliJ IDEA. User: slaha Date: 27.11.13 Time: 23:26 */
 @Entity
@@ -39,5 +40,9 @@ public class Kategorie extends Model {
 	@Override
 	public String toString() {
 		return jmeno;
+	}
+
+	public static List<Kategorie> findAllSortedByName() {
+		return find("order by jmeno").fetch();
 	}
 }

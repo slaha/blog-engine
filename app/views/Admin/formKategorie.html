@@ -10,7 +10,7 @@
 #{get 'title'/}
 </h1>
 
-#{form @ulozitKategorii(kategorie?.id)}
+#{form @ulozitKategorii(kategorie?.id), class:'forms forms-columnar'}
 
     #{ifErrors}
     <p class="error">
@@ -21,13 +21,14 @@
 <p>
     #{field 'nazev'}
         <label>Název kategorie:</label>
-        <input type="text" name="${field.name}" value="${kategorie?.jmeno}" />
-        <span class="error">#{error 'clanek.titulek' /}</span>
+            <input type="text" name="${field.name}" value="${kategorie?.jmeno}" />
+            <span class="error">#{error 'clanek.titulek' /}</span>
+
     #{/field}
 </p>
 
 <p>
-    <input type="submit" value="Uložit" />
+    <input type="submit" class="btn" value="Uložit">
 </p>
 
 #{/form}

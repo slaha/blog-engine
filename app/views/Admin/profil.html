@@ -1,0 +1,62 @@
+#{extends 'main.html' /}
+#{set title:'Profil ' + uzivatel.celeJmeno /}
+
+<h1>
+    #{get 'title'/}
+</h1>
+
+#{include '_flash.html'/}
+
+#{form @ulozitProfil(), class:'forms forms-columnar'}
+
+<fieldset>
+    <legend>Úprava uživatelského profilu</legend>
+    <p>
+        #{field 'jmeno'}
+            <label>Celé jméno:</label>
+                <input type="text" name="${field.name}" id="${field.name}" value="${uzivatel?.celeJmeno}" class='width-100 #{ifError field.name}input-error#{/ifError}'/>
+        #{/field}
+    </p>
+    <p>
+        #{field 'email'}
+            <label>E-mail:</label>
+                <input type="text" name="${field.name}" id="${field.name}" value="${uzivatel?.email}" class='width-100 #{ifError field.name}input-error#{/ifError}'/>
+        #{/field}
+    </p>
+
+    <p>
+        <input id="zmenit-heslo" name="zmenit-heslo" type="checkbox"> <label>Změnit heslo</label></li>
+    </p>
+
+    <p>
+        #{field 'heslo'}
+            <label>Stávající heslo:</label>
+            <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}'/>
+            #{ifError field.name}
+            <span class="error">Zadejte současné heslo</span>
+            #{/ifError}
+        #{/field}
+    </p>
+
+    <p>
+        #{field 'noveHeslo'}
+            <label>Nové heslo:</label>
+                <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}'/>
+        #{/field}
+    </p>
+
+    <p>
+        #{field 'noveHeslo2'}
+            <label>Nové heslo znovu:</label>
+                <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}'/>
+                #{ifError field.name}
+                <span class="error">Heslo neodpovídá novému heslu</span>
+                #{/ifError}
+        #{/field}
+    </p>
+
+    <p>
+        <input type="submit" class="btn" value="Uložit">
+    </p>
+</fieldset>
+#{/form}

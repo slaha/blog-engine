@@ -47,7 +47,7 @@ tinymce.init({
 <p>
     #{field 'kategorieId'}
         <label>Kategorie:
-            #{select name:'kategorieId', items:kategories, value:clanek?.kategorie.id, class:'width-50'}#{/select}
+            #{select name:'kategorieId', items:vsechnyKategorie, value:clanek?.kategorie?.id, class:'width-50'}#{/select}
         </label>
     #{/field}
 </p>

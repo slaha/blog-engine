@@ -11,7 +11,6 @@ public class Uzivatel extends Model {
 	public String email;
     public String heslo;
     public String celeJmeno;
-    public boolean isAdmin;
 
     public Uzivatel(String email, String heslo, String celeJmeno) {
         this.email = email;

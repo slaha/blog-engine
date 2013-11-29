@@ -7,13 +7,38 @@
 
 #{include '_flash.html'/}
 
+#{form @Admin.komentare(), class:'forms forms-inline'}
+<fieldset>
+    <legend>Filtrování</legend>
+
+    <div class="units-row">
+        #{field 'kategorieId'}
+            <label class="unit-50">Kategorie:<br>
+                #{select name:field.name, items:kategorieOptions, value:kategorieId, class:'width-80'}#{/select}
+            </label>
+        #{/field}
+
+
+        #{field 'clanekId'}
+            <label class="unit-50">Článek:<br>
+                #{select name:field.name, items:clanky, value:clanekId, class:'width-80'}#{/select}
+            </label>
+        #{/field}
+    </div>
+
+    <div class="text-centered">
+        <input type="submit" class="btn" value="Filtrovat" />
+    </div>
+</fieldset>
+#{/form}
+
 #{if komentare}
 
     <table class="width-100">
 	<thead>
 		<tr>
-			<th>Datum a autor</th>
-			<th>Článek a text komentáře</th>
+			<th>Datum<br>autor</th>
+			<th>Článek<br>text komentáře</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -22,13 +47,23 @@
         <tr>
             <td>
                 ${komentar.datumPoslani.format('dd.MM.yyyy HH.mm') }<br>
-                ${komentar.autor.length() > 10 ? komentar.autor[0..10] + '…' : komentar.autor }
+                ${komentar.autor.length() > 11 ? komentar.autor[0..10] + '…' : komentar.autor }
             </td>
             <td>
-                <b>${komentar.clanek.titulek.length() > 40 ?  komentar.clanek.titulek[0..40] + '…' : komentar.clanek}</b><br>
-                ${komentar.komentar.length() > 50 ?  komentar.komentar[0..50] + '…' : komentar.komentar }
+                <i>${komentar.clanek.titulek.length() > 40 ?  komentar.clanek.titulek[0..40] + '…' : komentar.clanek}</i><br>
+                #{if komentar.komentar.length() > 51}
+                <abbr title="${komentar.komentar}">
+                #{/if}
+                ${komentar.komentar.length() > 51 ?  komentar.komentar[0..50] + '…' : komentar.komentar }
+                #{if komentar.komentar.length() > 51}
+                </abbr>
+                #{/if}
             </td>
-            <td><a href="@{Admin.smazatKomentar(komentar.id)}" class="btn btn-red" title="Smazat"><i class="fa fa-trash-o"></i></a></td>
+            <td>
+                <a href="@{Admin.smazatKomentar(komentar.id, kategorieId, clanekId)}" class="btn btn-red" title="Smazat">
+                    <i class="fa fa-trash-o"></i>
+                </a>
+            </td>
         </tr>
         #{/list}
 

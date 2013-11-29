@@ -9,4 +9,14 @@ public class StringUtils {
 		String decomposed = java.text.Normalizer.normalize(str, Normalizer.Form.NFD);
 		return  decomposed.replaceAll("\\p{InCombiningDiacriticalMarks}+", "").replace(' ', '-');
 	}
+
+	public static boolean isAtLeastOneNotNullAndNotEmpty(String... strings) {
+
+		for (String string : strings) {
+			if (string != null && !string.isEmpty()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

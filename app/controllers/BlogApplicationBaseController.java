@@ -20,7 +20,7 @@ public abstract class BlogApplicationBaseController extends Controller {
         }
 		renderArgs.put("blogNazev", Play.configuration.getProperty("blog.title"));
 		renderArgs.put("blogPodtitulek", Play.configuration.getProperty("blog.baseline"));
-		renderArgs.put("vsechnyKategorie", Kategorie.find("order by jmeno").fetch());
+		renderArgs.put("vsechnyKategorie", Kategorie.findAllSortedByName());
 	}
 
 

@@ -10,10 +10,12 @@ public class Security extends Secure.Security {
     }
 
 	static void onDisconnected() {
-        Application.index();
+        Admin.clanky();
 	}
 
 	static void onAuthenticated() {
         Admin.clanky();
 	}
+
+
 }

@@ -1,12 +1,14 @@
 package controllers;
 
-import models.Clanek;
-import models.Kategorie;
-import models.Komentar;
-import models.Uzivatel;
+import models.*;
 import play.Logger;
+import play.data.validation.Validation;
+import play.db.jpa.GenericModel;
+import play.db.jpa.JPABase;
 import play.mvc.With;
+import utils.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 @With(Secure.class)
@@ -29,12 +31,11 @@ public class Admin extends BlogApplicationBaseController {
 
 
 	public static void formClanek(Long id) {
-		List<Kategorie> kategories = Kategorie.findAll();
 	    if(id != null) {
 	        Clanek clanek = Clanek.findById(id);
-	        render(clanek, kategories);
+	        render(clanek);
 	    }
-	    render(kategories);
+	    render();
 	}
 
 	public static void ulozitClanek(Long id, String titulek, String text, Long kategorieId) {
@@ -53,8 +54,7 @@ public class Admin extends BlogApplicationBaseController {
 	    // Validate
 	    validation.valid(clanek);
 	    if(validation.hasErrors()) {
-		    List<Kategorie> kategories = Kategorie.findAll();
-	        render("@formClanek", clanek, kategories);
+	        render("@formClanek", clanek);
 	    }
 
 	    clanek.save();
@@ -87,9 +87,68 @@ public class Admin extends BlogApplicationBaseController {
 	 * KOMENTARE
 	 *
 	 ***************************************/
-	public static void komentare() {
-		List<Komentar> komentare = Komentar.findAll();
-		render(komentare);
+	public static void komentare(Long kategorieId, Long clanekId) {
+		Kategorie kategorie = null;
+		Clanek clanek = null;
+		if (kategorieId != null) {
+			kategorie = Kategorie.findById(kategorieId);
+		}
+		if (clanekId != null) {
+			clanek = Clanek.findById(clanekId);
+			if (kategorie != null && clanek.kategorie.id != kategorieId) {
+				clanek = null;
+			}
+		}
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("select kom from Komentar kom");
+		if (kategorie != null) {
+			sb
+				.append("   join kom.clanek as clanek")
+				.append("   where clanek.kategorie = ?");
+		}
+
+		if (clanek != null) {
+
+			if (kategorie == null) {
+				sb.append(" where ");
+			} else {
+				sb.append("and");
+			}
+			sb.append(" clanek = ?");
+		}
+
+		sb.append(" order by kom.datumPoslani desc kom.clanek.titulek asc");
+
+		GenericModel.JPAQuery komentareQuery = null;
+
+
+		if (kategorie != null && clanek != null) {
+			komentareQuery = Komentar.find(sb.toString(), kategorie, clanek);
+
+		} else if (kategorie  == null && clanek != null) {
+			komentareQuery = Komentar.find(sb.toString(), clanek);
+
+		} else if (kategorie  != null && clanek == null) {
+			komentareQuery = Komentar.find(sb.toString(), kategorie);
+
+		} else {
+			komentareQuery = Komentar.find(sb.toString());
+		}
+		List<JPABase> clanky;
+		if (kategorie == null) {
+			clanky = Clanek.findAll();
+		} else  {
+			clanky = Clanek.find("byKategorie", kategorie).fetch();
+		}
+
+		clanky.add(0, new OptionPlaceholder("Všechny články"));
+		List<Komentar> komentare = komentareQuery.fetch();
+
+		List<JPABase> kategorieOptions = new ArrayList<JPABase>((List<Kategorie>) renderArgs.get("vsechnyKategorie"));
+		kategorieOptions.add(0, new OptionPlaceholder("Všechny kategorie"));
+
+		render(komentare, kategorie, kategorieOptions, clanky, kategorieId, clanekId);
 	}
 
 
@@ -101,7 +160,7 @@ public class Admin extends BlogApplicationBaseController {
 	    render();
 	}
 
-	public static void smazatKomentar(Long id) {
+	public static void smazatKomentar(Long id, Long kategorieId, Long clanekId) {
         Komentar komentar = Komentar.findById(id);
 		if (komentar == null) {
 			logAndDisplayError("Komentář s ID %d nebyl nalezen", id);
@@ -119,7 +178,7 @@ public class Admin extends BlogApplicationBaseController {
 			Logger.error(ex, message);
 			flash.error(message);
 		}
-	    komentare();
+	    komentare(kategorieId, clanekId);
 	}
 
 	/***************************************
@@ -182,5 +241,59 @@ public class Admin extends BlogApplicationBaseController {
 			flash.error(message);
 		}
 	    kategorie();
+	}
+
+	/***************************************
+	 *
+	 * PROFIL
+	 *
+	 ***************************************/
+
+	public static void profil() {
+		render();
+	}
+
+	public static void ulozitProfil(String jmeno,
+	                                String email,
+	                                String heslo,
+	                                String noveHeslo,
+	                                String noveHeslo2) {
+
+
+		System.out.println(jmeno +" -- " +  email +" -- " +  heslo +" -- " +  noveHeslo +" -- " +  noveHeslo2);
+
+		Uzivatel uzivatel = Uzivatel.find("byEmail", Security.connected()).first();
+		uzivatel.celeJmeno = jmeno;
+
+		boolean zmenaEmail = false;
+		if (!uzivatel.email.equals(email)) {
+			//..musi se promitnout i do Security
+			zmenaEmail = true;
+		}
+		uzivatel.email = email;
+
+		if (StringUtils.isAtLeastOneNotNullAndNotEmpty(heslo, noveHeslo, noveHeslo2)) {
+			validation.equals(heslo, uzivatel.heslo);
+			validation.equals(noveHeslo2, noveHeslo);
+
+			if (!Validation.hasErrors()) {
+				uzivatel.heslo = noveHeslo;
+			}
+		}
+
+		validation.valid(uzivatel);
+		if (Validation.hasErrors()) {
+			flash.error("Chyba při ukládání profilu");
+			render("@profil", uzivatel);
+		}
+
+		uzivatel.save();
+
+		flash.success("Uživatelský profil \"%s\" byl úspěšně změněn", jmeno);
+		if (zmenaEmail) {
+			session.put("username", email);
+		}
+
+		profil();
 	}
 }

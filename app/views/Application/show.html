@@ -10,32 +10,44 @@
 
 #{form @Application.pridatKomentar(clanek.id), class:'forms forms-columnar'}
 
-    #{ifErrors}
-        <p class="error">
-             ${errors}
-        </p>
-    #{/ifErrors}
-<p>
-    <label for="autor">Jméno:</label>
-    <input type="text" name="autor" id="autor" value="${params.autor}" class="width-60"/>
-</p>
-<p>
-    <label for="komentar">Komentář: </label>
-    <textarea name="komentar" id="komentar" class="width-100 height-100px">${params.komentar}</textarea>
-    HTML není povoleno.
-    <br>Chcete-li přidat odkaz, použijte syntaxi:<br><code class="margin-left-30">[a http://seznam.cz]Seznam[/a]</code>. Vloží <a href="http://seznam.cz">Seznam</a>.
-    <br>Na jiný komentář se můžete odkázat pomocí:<br><code class="margin-left-30">[X]</code>, kde <code>X</code> je číslo komentáře, na nějž se odkazuje.
-</p>
-<p>
-    <label for="code">Kód z obrázku: </label>
-        <span class="btn-group">
-            <input type="text" name="code" id="code" size="18" value="" />
-            <input type="hidden" name="randomID" value="${randomID}" />
+<fieldset>
+    <legend>
+        Nový komentář
+    </legend>
+        #{ifErrors}
+            <p class="error">
+                 ${errors}
+            </p>
+        #{/ifErrors}
+    <p>
+        <label for="autor">Jméno:</label>
+        #{if uzivatel}
+        <input type="text" name="autor" id="autor" value="${uzivatel.celeJmeno}" class="width-60" readonly/>
+        #{/if}
+        #{else }
+        <input type="text" name="autor" id="autor" value="${params.autor}" class="width-60"/>
+        #{/else}
+    </p>
+    <p>
+        <label for="komentar">Komentář: </label>
+        <textarea name="komentar" id="komentar" class="width-100 height-100px">${params.komentar}</textarea>
+        HTML není povoleno.
+        <br>Chcete-li přidat odkaz, použijte syntaxi:<br><code class="margin-left-30">[a http://seznam.cz]Seznam[/a]</code>. Vloží <a href="http://seznam.cz">Seznam</a>.
+        <br>Na jiný komentář se můžete odkázat pomocí:<br><code class="margin-left-30">[X]</code>, kde <code>X</code> je číslo komentáře, na nějž se odkazuje.
+    </p>
+    #{ifnot uzivatel}
+    <p>
+        <label for="code">Kód z obrázku: </label>
+            <span class="btn-group">
+                <input type="text" name="code" id="code" size="18" value="" />
+                <input type="hidden" name="randomID" value="${randomID}" />
 
-            <img src="@{Application.captcha(randomID)}" />
-        </span>
-</p>
-<p>
-    <input type="submit" class="btn" value="Odeslat komentář" />
-</p>
+                <img src="@{Application.captcha(randomID)}" />
+            </span>
+    </p>
+    #{/ifnot}
+    <p>
+        <input type="submit" class="btn" value="Odeslat komentář" />
+    </p>
+</fieldset>
 #{/form}
