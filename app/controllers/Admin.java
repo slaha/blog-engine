@@ -274,7 +274,7 @@ public class Admin extends BlogApplicationBaseController {
 
 		if (StringUtils.isAtLeastOneNotNullAndNotEmpty(heslo, noveHeslo, noveHeslo2)) {
 			validation.equals(heslo, uzivatel.heslo);
-			validation.equals(noveHeslo2, noveHeslo);
+			validation.equals(noveHeslo2, noveHeslo );
 
 			if (!Validation.hasErrors()) {
 				uzivatel.heslo = noveHeslo;

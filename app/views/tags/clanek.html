@@ -1,6 +1,7 @@
 <div class="clanek ${_as == 'teaser' ? 'teaser' : ''}">
     <h1 class="post-title">
-        <a href="@{Application.show(_clanek.id)}">${_clanek.titulek}</a>
+
+        <a href="@{Application.show(_clanek.id, _clanek.url)}">${_clanek.titulek}</a>
     </h1>
     <div class="post-metadata">
         <span class="post-author">od ${_clanek.autor.celeJmeno}</span>,
@@ -35,10 +36,10 @@
 
 <ul class="pagination">
     #{if _predchozi}
-        <li class="pagination-older"><a href="@{Application.show(_predchozi.id)}">&larr; ${_predchozi.titulek}</a></li>
+        <li class="pagination-older"><a href="@{Application.show(_predchozi.id, _predchozi.url)}">&larr; ${_predchozi.titulek}</a></li>
     #{/if}
     #{if _nasledujici}
-        <li class="pagination-newest pagination-pull"><a href="@{Application.show(_nasledujici.id)}">${_nasledujici.titulek} &rarr;</a></li>
+        <li class="pagination-newest pagination-pull"><a href="@{Application.show(_nasledujici.id, _nasledujici.url)}">${_nasledujici.titulek} &rarr;</a></li>
     #{/if}
 </ul>
 

@@ -28,7 +28,7 @@
         <tr>
             <td>${clanek.datumNapsani.format('dd.MM.yyyy') }</td>
             <td>
-                <a href="@{Application.show(clanek.id)}">
+                <a href="@{Application.show(clanek.id, clanek.url)}">
                 ${clanek.titulek.length() > 35 ? clanek.titulek[0..35] + '…' : clanek.titulek }
                 </a>
             </td>

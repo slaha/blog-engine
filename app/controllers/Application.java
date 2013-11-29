@@ -8,7 +8,6 @@ import play.libs.Images;
 import java.util.*;
 
 import models.*;
-import play.mvc.With;
 import utils.StringUtils;
 
 import static play.modules.pdf.PDF.*;
@@ -26,7 +25,7 @@ public class Application extends BlogApplicationBaseController {
 	    render(nejnovejsiClanek, starsiClanky);
     }
 
-	public static void show(Long id) {
+	public static void show(Long id, String titulek) {
 	    Clanek clanek = Clanek.findById(id);
 
 		if (clanek == null) {
@@ -57,7 +56,7 @@ public class Application extends BlogApplicationBaseController {
 			logAndDisplayError("Článek s id %d nebyl nalezen v databázi", id);
 		}
 
-		String title = StringUtils.normalize(clanek.titulek);
+		String title = StringUtils.normalize(clanek.titulek, false);
 		Options options = new Options();
 		options.filename = title + ".pdf";
 
@@ -100,7 +99,7 @@ public class Application extends BlogApplicationBaseController {
         }
 	    clanek.pridatKomentar(autor, komentar);
 		flash.success("Komentář byl uložen.");
-		show(postId);
+		show(postId, clanek.titulek);
 	}
 
 

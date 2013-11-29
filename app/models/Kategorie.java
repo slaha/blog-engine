@@ -30,7 +30,7 @@ public class Kategorie extends Model {
 
 	public void setJmeno(String jmeno) {
 		this.jmeno = jmeno;
-		this.url = StringUtils.normalize(jmeno);
+		this.url = StringUtils.normalize(jmeno, true);
 	}
 
 	public String getUrl() {

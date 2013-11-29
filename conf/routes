@@ -4,7 +4,7 @@
 
 # Home page
 GET     /                                       Application.index
-GET     /clanek/{id}                            Application.show
+GET     /clanek/{id}/{titulek}                  Application.show
 GET     /tisk/{id}                              Application.pdf
 GET     /pdf/{id}                               Application.pdf
 GET     /kategorie/{kategorieUrl}               Application.kategorie

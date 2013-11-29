@@ -3,6 +3,7 @@ package models;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 import utils.KomentarUtils;
+import utils.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -54,6 +55,10 @@ public class Clanek extends Model {
 
 	public Clanek nasledujici() {
         return Clanek.find("datumNapsani > ? order by datumNapsani asc", datumNapsani).first();
+	}
+
+	public String getUrl() {
+		return StringUtils.normalize(titulek, true);
 	}
 
 	/*************************
