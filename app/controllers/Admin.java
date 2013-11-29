@@ -25,7 +25,7 @@ public class Admin extends BlogApplicationBaseController {
 	 *
 	 ***************************************/
 	public static void clanky() {
-		List<Clanek> clanky = Clanek.findAll();
+		List<Clanek> clanky = Clanek.find("order by datumNapsani desc").fetch();
 		render(clanky);
 	}
 

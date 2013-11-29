@@ -1,21 +1,20 @@
 <div class="clanek ${_as == 'teaser' ? 'teaser' : ''}">
-    <h1 class="post-title">
-
+    #{if _as == 'full'}<h1 class="post-title">#{/if}
+    #{else }<h2 class="post-title">#{/else}
         <a href="@{Application.show(_clanek.id, _clanek.url)}">${_clanek.titulek}</a>
-    </h1>
+    #{if _as == 'full'}</h1>#{/if}
+    #{else }</h2>#{/else}
     <div class="post-metadata">
-        <span class="post-author">od ${_clanek.autor.celeJmeno}</span>,
-        <span class="post-date">${_clanek.datumNapsani.format('dd. MMMM yyyy')}</span>
+        <i class="fa fa-pencil"></i> ${_clanek.autor.celeJmeno}&nbsp;|&nbsp;<i class="fa fa-calendar"></i> ${_clanek.datumNapsani.format('dd. MMMM yyyy')}
     #{if _as != 'full'}
-        <span class="post-comments">
-                &nbsp;|&nbsp; ${_clanek.komentare.size() == 0 ? 'Žádné komentáře' :
-                _clanek.komentare.size() + ((_clanek.komentare.size() == 1)? ' komentář':
-                ((_clanek.komentare.size() < 5)?' komentáře':' komentářů'))}
+                &nbsp;|&nbsp;<i class="fa fa-comment-o"></i>
+                ${_clanek.komentare.size() == 0 ? 'Žádné komentáře.' :
+                    _clanek.komentare.size() + ((_clanek.komentare.size() == 1)? ' komentář,':
+                    ((_clanek.komentare.size() < 5)?' komentáře,':' komentářů,'))}
 
             #{if _clanek.komentare}
-            , poslední od ${_clanek.komentare[-1].autor}
+             poslední od ${_clanek.komentare[-1].autor}
             #{/if}
-            </span>
     #{/if}
     </div>
 #{if _as != 'teaser'}
@@ -53,6 +52,7 @@
     #{list items:_clanek.komentare, as:'komentar'}
         <section class="caption group" id="komentar${komentar_index}">
             <div class="question bubble">
+                <div class="komentar-cislo">${komentar_index}</div>
                 ${komentar.komentar.raw()}
                 <span class="arrow border"/>
                 <span class="arrow fill"/>

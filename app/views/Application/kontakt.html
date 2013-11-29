@@ -1,0 +1,60 @@
+#{extends 'main.html' /}
+#{set title:'Kontaktní formulář' /}
+
+<h1>
+#{get 'title'/}
+</h1>
+
+#{include '_flash.html'/}
+#{form @Application.kontaktOdeslat(), class:'forms'}
+<fieldset>
+    <legend>Kontaktní formulář</legend>
+<p>
+    #{field 'od'}
+        <label>Váš e-mail:
+            <input type="email" name="${field.name}" value="${od}" class='width-100 #{ifError field.name}input-error#{/ifError}'/>
+            <span class="error">#{error 'clanek.titulek' /}</span>
+            #{ifError field.name}
+            <span class="error">Musí být vyplněn e-mail</span>
+            #{/ifError}
+        </label>
+    #{/field}
+</p>
+<p>
+    #{field 'zprava'}
+        <label>Zpráva:
+            <textarea name="${field.name}" class='width-100 height-100px #{ifError field.name}input-error#{/ifError}'>${zprava}</textarea>
+            <span class="error">#{error 'clanek.text' /}</span>
+            #{ifError field.name}
+            <span class="error">Text zprávy je povinný</span>
+            #{/ifError}
+        </label>
+    #{/field}
+</p>
+
+<p>
+    #{field 'kopie'}
+        <ul class="forms-list">
+		    <li><input name="${field.name}" type="checkbox" ${kopie?' checked ':''}> <label for="${field.name}">Poslat kopii i mně</label></li>
+    	</ul>
+        </label>
+    #{/field}
+</p>
+
+<p>
+    #{field 'code'}
+    <label for="${field.name}">Kód z obrázku: </label>
+            <img src="@{Application.captcha(randomID)}" />
+            <input type="text" name="${field.name}" id="${field.name}" size="18" value="" class='width-40 #{ifError field.name}input-error#{/ifError}' />
+            #{ifError field.name}
+            <span class="error">Kód musí být zadán</span>
+            #{/ifError}
+            <input type="hidden" name="randomID" value="${randomID}" />
+    #{/field}
+</p>
+
+<p>
+    <input type="submit" class="btn" value="Odeslat" />
+</p>
+</fieldset>
+#{/form}

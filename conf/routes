@@ -4,6 +4,8 @@
 
 # Home page
 GET     /                                       Application.index
+GET     /kontakt                                Application.kontakt
+POST    /kontakt                                Application.kontaktOdeslat
 GET     /clanek/{id}/{titulek}                  Application.show
 GET     /tisk/{id}                              Application.pdf
 GET     /pdf/{id}                               Application.pdf

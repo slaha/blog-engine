@@ -1,23 +1,21 @@
 #{extends 'main.html' /}
 #{set title:'Přihlášení' /}
 
-<h1>
-    #{get 'title'/}
-</h1>
 
 #{include '_flash.html'/}
-
+<div class="units-row"><div class="unit-centered unit-40">
 #{form @Secure.login(), method:'post', class:'forms'}
 
-    <input type="hidden" name="authenticityToken" value="8eb36e0edfc9c298cee6d1756ea2a518b1ec58f8">
-
+<fieldset>
+    <legend>Přihlášení</legend>
+    #{authenticityToken /}
 
     <label for="username">Jméno:
-        <input type="text" name="username" id="username" value="" />
+        <input type="text" name="username" id="username" value="" class="width-100" />
     </label>
 
     <label for="password">Heslo:
-        <input type="password" name="password" id="password" value="" />
+        <input type="password" name="password" id="password" value="" class="width-100" />
     </label>
 
     <ul class="forms-inline-list">
@@ -28,4 +26,7 @@
 
     <input type="submit" id="signin"  class="btn" value="Přihlásit" />
 
+</fieldset>
 #{/form}
+</div>
+</div>

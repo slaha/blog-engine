@@ -9,9 +9,39 @@ body {
     margin-top: 20px !important;
     padding: 20px !important;
 }
+
+
+.post-title {
+    font-size: 1.5em;
+    margin-bottom: 0;
+}
+
+div.post-metadata {
+    margin-bottom: 15px;
+    color: #5e5e5e;
+    font-size: 0.85em;
+}
+
+#main {
+    font-size: 1em;
+}
+#main h1 {
+    font-size: 1.6em;
+}
+
+#main h2 {
+    font-size: 1.45em;
+}
+
+#main h3 {
+    font-size: 1.3em;
+}
+
 /* =Links
 -----------------------------------------------------------------------------*/
-
+p.btn-new {
+    margin-top: 30px;
+}
 
 /* =Layout
 -----------------------------------------------------------------------------*/
@@ -49,13 +79,6 @@ ul.pagination {
     height: 100px;
 }
 
-h1.post-title {
-    font-size: 1.5em;
-}
-
-div.post-metadata {
-    margin-bottom: 15px;
-}
 /* =Footer
 -----------------------------------------------------------------------------*/
 #footer {
@@ -125,6 +148,10 @@ div.post-metadata {
     left: 23px;
 }
 
+.bubble .komentar-cislo {
+    float: right;
+    font-size: 2em;
+}
 .bubble:hover {
     background: #f2f2f2;
     border-color: #CFCFCF;

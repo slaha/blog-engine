@@ -44,7 +44,7 @@
                         #{/list}
 
                         #{ifnot uzivatel}
-                        <li><a href="/login">Přihlásit se</a></li>
+                        <li><a href="@{Secure.login()}">Přihlásit se</a></li>
                         #{/ifnot}
                         #{else }
                         <li><a href="@{Admin.index()}" title="${uzivatel.celeJmeno}">Administrace</a></li>
@@ -58,6 +58,7 @@
                             </li>
                             <li><a href="@{Secure.logout()}">Odhlásit se</a></li>
                         #{/else}
+                        <li><a href="@{Application.kontakt()}">Napsat mi</a></li>
                     </ul>
                 </nav>
             </div>
