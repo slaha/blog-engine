@@ -80,7 +80,7 @@ public class Application extends BlogApplicationBaseController {
 	public static void pridatKomentar(Long postId,
 	                                  @Required String autor,
 	                                  @Required String komentar,
-	                                  @Required String code,
+	                                  String code,
 	                                  String randomID)  {
 
 	    Clanek clanek = Clanek.findById(postId);
@@ -89,9 +89,14 @@ public class Application extends BlogApplicationBaseController {
 			logAndDisplayError("Článek s id %d nebyl nalezen v databázi", postId);
 		}
 
-		validation.equals(code, Cache.get(randomID)).message("Kód z obrázku byl špatně opsán.");
+		if (Security.connected() == null) {
+			validation.equals(code, Cache.get(randomID)).message("Kód z obrázku byl špatně opsán.");
+		}
+
 		if (validation.hasErrors()) {
-            render("Application/show.html", clanek);
+			Clanek predchozi = clanek.predchozi();
+			Clanek nasledujici = clanek.nasledujici();
+            render("Application/show.html", clanek, randomID, predchozi, nasledujici);
         }
 	    clanek.pridatKomentar(autor, komentar);
 		flash.success("Komentář byl uložen.");

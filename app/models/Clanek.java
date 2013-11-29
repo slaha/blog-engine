@@ -2,6 +2,7 @@ package models;
 
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import utils.KomentarUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class Clanek extends Model {
     }
 
 	public Clanek pridatKomentar(String autor, String komentar) {
+		komentar = KomentarUtils.escape(komentar, this);
 	    Komentar newComment = new Komentar(this, autor, komentar).save();
 	    this.komentare.add(newComment);
 	    this.save();

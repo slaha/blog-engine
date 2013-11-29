@@ -25,7 +25,7 @@
 	<tbody>
         #{list items:kategorie, as:'kat'}
         <tr>
-            <td>${kat.jmeno}</td>
+            <td><a href="@{Application.kategorie(kat.url)}">${kat.jmeno}</a></td>
             <td>${kat.pocet}</td>
             <td>
                 <a href="@{Admin.formKategorie(kat.id)}" class="btn btn-blue" title="Upravit"><i class="fa fa-pencil-square-o"></i></a>

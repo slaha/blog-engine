@@ -50,14 +50,14 @@
     </h3>
 
     #{list items:_clanek.komentare, as:'komentar'}
-        <section class="caption group">
+        <section class="caption group" id="komentar${komentar_index}">
             <div class="question bubble">
-                ${komentar.komentar.escape().nl2br()}
+                ${komentar.komentar.raw()}
                 <span class="arrow border"/>
                 <span class="arrow fill"/>
             </div>
             <div class="asker group">
-                    <span class="asker">napsal ${komentar.autor} dne ${komentar.datumPoslani.format('dd. MMMM yyyy')} v ${komentar.datumPoslani.format('hh.MM')} </span>
+                    <span class="asker">napsal ${komentar.autor} dne ${komentar.datumPoslani.format('dd. MMMM yyyy')} v ${komentar.datumPoslani.format('HH.mm')} </span>
             </div>
         </section>
     #{/list}

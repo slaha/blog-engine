@@ -130,7 +130,7 @@ public class Admin extends BlogApplicationBaseController {
 	public static void kategorie() {
 		//List<Kategorie> kategorie = Kategorie.findAll();
 		List<Map> kategorie = Kategorie.find(
-            "select new map(k.jmeno as jmeno, count(c.id) as pocet, k.id as id) from Clanek c right join c.kategorie as k group by k.jmeno order by pocet"
+            "select new map(k.jmeno as jmeno, count(c.id) as pocet, k.id as id, k.url as url) from Clanek c right join c.kategorie as k group by k.jmeno order by pocet"
             ).fetch();
 		render(kategorie);
 	}

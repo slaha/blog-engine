@@ -19,16 +19,20 @@
 			<th>Datum</th>
 			<th>Název</th>
 			<th>Kategorie</th>
-			<th>Komentářů</th>
-			<th></th>
+			<th><abbr title="Komentáře">K</abbr></th>
+			<th style="min-width: 81px"></th>
 		</tr>
 	</thead>
 	<tbody>
         #{list items:clanky, as:'clanek'}
         <tr>
             <td>${clanek.datumNapsani.format('dd.MM.yyyy') }</td>
-            <td><a href="@{Application.show(clanek.id)}">${clanek.titulek }</a></td>
-            <td>${clanek.kategorie }</td>
+            <td>
+                <a href="@{Application.show(clanek.id)}">
+                ${clanek.titulek.length() > 35 ? clanek.titulek[0..35] + '…' : clanek.titulek }
+                </a>
+            </td>
+            <td>${clanek.kategorie.jmeno.length() > 13 ? clanek.kategorie.jmeno[0..13] + '…' : clanek.kategorie}</td>
             <td>${clanek.komentare.size() }</td>
             <td>
                 <a href="@{Admin.formClanek(clanek.id)}" class="btn btn-blue" title="Upravit"><i class="fa fa-pencil-square-o"></i></a>
