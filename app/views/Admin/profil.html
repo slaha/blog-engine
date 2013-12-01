@@ -8,6 +8,21 @@
 #{include '_flash.html'/}
 
 #{form @ulozitProfil(), class:'forms forms-columnar'}
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $('#zmenit-heslo').change(function(){
+
+            var dis =  ($('#zmenit-heslo').is(':checked') == false);
+            $('#heslo').prop('disabled', dis);
+            $('#noveHeslo').prop('disabled', dis);
+            $('#noveHeslo2').prop('disabled', dis);
+
+        });
+
+
+    });
+</script>
 
 <fieldset>
     <legend>Úprava uživatelského profilu</legend>
@@ -31,7 +46,7 @@
     <p>
         #{field 'heslo'}
             <label>Stávající heslo:</label>
-            <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}'/>
+            <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}' disabled/>
             #{ifError field.name}
             <span class="error">Zadejte současné heslo</span>
             #{/ifError}
@@ -41,14 +56,14 @@
     <p>
         #{field 'noveHeslo'}
             <label>Nové heslo:</label>
-                <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}'/>
+                <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}' disabled/>
         #{/field}
     </p>
 
     <p>
         #{field 'noveHeslo2'}
             <label>Nové heslo znovu:</label>
-                <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}'/>
+                <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}' disabled/>
                 #{ifError field.name}
                 <span class="error">Heslo neodpovídá novému heslu</span>
                 #{/ifError}

@@ -123,4 +123,9 @@ public class Clanek extends Model {
 		result = 31 * result + (komentare != null ? komentare.hashCode() : 0);
 		return result;
 	}
+
+	public int getPosledniKomentarCislo() {
+
+		return komentare.size();
+	}
 }

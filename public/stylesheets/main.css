@@ -83,6 +83,23 @@ ul.pagination {
     height: 100px;
 }
 
+input:disabled
+{
+    background: #dddddd;
+}
+
+/* =Stránkování
+-----------------------------------------------------------------------------*/
+div.outer{
+    display:inline-block;
+    position:relative;
+    left:50%;
+}
+
+div.inner{
+    position:relative;
+    left:-50%;
+}
 /* =Footer
 -----------------------------------------------------------------------------*/
 #footer {

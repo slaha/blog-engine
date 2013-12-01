@@ -8,7 +8,7 @@ public class VysledekVyhledavani {
 	private final String text;
 
 	public VysledekVyhledavani(Clanek clanek, String hledat) {
-		this.hledany = " " + hledat + " ";
+		this.hledany = hledat;
 		this.text = clanek.text;
 	}
 
@@ -38,11 +38,11 @@ public class VysledekVyhledavani {
 			}
 
 			sb
-				.append(text.substring(start, index + 1))
+				.append(text.substring(start, index))
 				.append("<mark>")
-				.append(text.substring(index + 1, poNajdutem - 1))
+				.append(text.substring(index, poNajdutem))
 				.append("</mark>")
-				.append(text.substring(poNajdutem - 1, stop));
+				.append(text.substring(poNajdutem, stop));
 
 			startPos = stop;
 		}

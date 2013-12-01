@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Uzivatel;
+import org.mindrot.jbcrypt.BCrypt;
 
 /** Created with IntelliJ IDEA. User: slaha Date: 27.11.13 Time: 23:36 */
 public class Security extends Secure.Security {

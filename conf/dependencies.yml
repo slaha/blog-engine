@@ -6,4 +6,4 @@ require:
     - play -> secure
     - play -> search head
     - play -> pdf 0.9
-
+    - org.mindrot -> jbcrypt 0.3m

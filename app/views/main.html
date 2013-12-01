@@ -18,6 +18,9 @@
     <![endif]-->
 </head>
 <body>
+<script type="text/javascript" src="@{'/public/javascripts/jquery-1.6.4.min.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/kube.buttons.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/kube.tabs.js'}"></script>
 <div class="units-row">
     <div class="unit-centered unit-70" id="content">
         <div class="unit-75">
@@ -32,10 +35,11 @@
         </div>
         <div>
         #{form @Application.hledat(), class:'forms',id:'hledani'}
+
             <label>
 		            <span class="btn-group">
-			            <input name="hledat" type="text" size="20">
-			            <button class="btn">Hledat</button>
+			            <input name="hledat" type="text" size="20" placeholder="Vyhledat&hellip;">
+			            <button class="btn"><i class="fa fa-search"></i></button>
 		            </span>
             </label>
         #{/form}
@@ -85,8 +89,5 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.3.js'}"></script>
-<script type="text/javascript" src="@{'/public/javascripts/kube.buttons.js'}"></script>
-<script type="text/javascript" src="@{'/public/javascripts/kube.tabs.js'}"></script>
 </body>
 </html>

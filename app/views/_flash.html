@@ -1,3 +1,15 @@
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $('.close').click(function(){
+
+            $('.close').closest("div").hide();
+        });
+
+
+    });
+</script>
+
 #{if flash.success}
 <div class="message message-success">
     <span class="close"></span>

@@ -1,7 +1,4 @@
-import models.Clanek;
-import models.Kategorie;
-import models.Komentar;
-import models.Uzivatel;
+import models.*;
 import play.jobs.Job;
 import play.jobs.OnApplicationStart;
 
@@ -11,13 +8,14 @@ public class Bootstrap extends Job {
 
 	public void doJob() {
         // Check if the database is empty
-	/*	Komentar.deleteAll();
-		Kategorie.deleteAll();
+		/*Komentar.deleteAll();
 		Clanek.deleteAll();
+		Kategorie.deleteAll();
 		Uzivatel.deleteAll();
+		Salt.deleteAll();
 */
         if(Clanek.count() == 0) {
-	        Uzivatel uzivatel = new Uzivatel("jan@slahora.cz", "jan", "Jan Šlahora").save();
+	        Uzivatel uzivatel = new Uzivatel("jan@slahora.cz", "janjan", "Jan Šlahora").save();
 
 	        Kategorie kategorie = new Kategorie("kategorie 1").save();
             new Clanek(uzivatel, "clanek 1", clanek(), kategorie).save();

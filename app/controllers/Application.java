@@ -13,6 +13,7 @@ import play.libs.Images;
 import play.modules.search.Query;
 import play.modules.search.Search;
 import play.mvc.Http;
+import play.mvc.Router;
 import utils.MailSender;
 import utils.StringUtils;
 
@@ -173,7 +174,12 @@ public class Application extends BlogApplicationBaseController {
 		}
 		clanek.pridatKomentar(autor, komentar);
 		flash.success("Komentář byl uložen.");
-		show(postId, clanek.titulek);
+		//show(postId, clanek.getUrl());
+		Map<String, Object> args = new HashMap<String, Object>();
+		args.put("id", postId);
+		args.put("titulek", clanek.getUrl());
+		Router.ActionDefinition url = Router.reverse("Application.show", args).addRef(String.format("komentar%d", clanek.getPosledniKomentarCislo()));
+		redirect(url.url);
 	}
 
 	public static void captcha(String id) {

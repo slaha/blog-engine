@@ -16,7 +16,21 @@ public class Admin extends BlogApplicationBaseController {
 
 
 	public static void index() {
-		render();
+		long pocetClanku = Clanek.count();
+		long pocetKomentaru = Komentar.count();
+		long pocetKategorii = Kategorie.count();
+		Clanek nejnovejsiClanek = Clanek.find("order by datumNapsani").first();
+		Komentar nejnovejsiKomentar = Komentar.find("order by datumPoslani").first();
+		Object[] clankyKategorie = Clanek.find("select kategorie, count(c) from Clanek c group by c.kategorie order by count(c) desc").first();
+
+		Kategorie nejobsahlejsiKategorie = null;
+		Long clankuVKategorii = null;
+		if (clankyKategorie != null && clankyKategorie.length >= 2) {
+			nejobsahlejsiKategorie = (Kategorie) clankyKategorie[0];
+			clankuVKategorii = (Long) clankyKategorie[1];
+		}
+		System.out.println("NK: "  + nejobsahlejsiKategorie);
+		render(pocetClanku, pocetKomentaru, pocetKategorii, nejnovejsiClanek, nejnovejsiKomentar, nejobsahlejsiKategorie, clankuVKategorii);
 	}
 
 	/***************************************
@@ -280,7 +294,7 @@ public class Admin extends BlogApplicationBaseController {
 			validation.equals(noveHeslo2, noveHeslo );
 
 			if (!Validation.hasErrors()) {
-				uzivatel.heslo = noveHeslo;
+				uzivatel.nastavHeslo(noveHeslo);
 			}
 		}
 

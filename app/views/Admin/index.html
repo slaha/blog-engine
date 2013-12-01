@@ -1,4 +1,105 @@
 #{extends 'main.html' /}
 #{set title:'Administrace' /}
 
-<p>Administrace</p>
+<h1>Administrace</h1>
+<p>&nbsp;</p>
+<ul class="blocks-2 administrace">
+    <li>
+        <hgroup>
+            <h3>Články</h3>
+
+            #{if pocetClanku}
+            <h4 class="subheader">
+            Již ${pocetClanku==1? 'byl napsán jeden článek' :
+                    pocetClanku > 4? 'bylo napsáno ' + pocetClanku + ' článků' :
+                    'byly napsány ' + pocetClanku + ' články'}
+            </h4>
+        </hgroup>
+        <p>
+            <dl>
+                <dt>Nejnovější článek</dt>
+                <dd>${nejnovejsiClanek.titulek}</dd>
+                <dt><a href="@{Admin.clanky()}">Administrace článků</a></dt>
+                <dd>&nbsp;</dd>
+            </dl>
+        </p>
+            #{/if}
+            #{else }
+                <h3 class="subheader">
+                    Zatím žádný článek
+                </h3>
+            </hgroup>
+            #{/else}
+    </li>
+    <li>
+    <hgroup>
+        <h3>Komentáře</h3>
+
+    #{if pocetKomentaru}
+        <h4 class="subheader">
+            Již ${pocetKomentaru==1? 'byl napsán jeden komentář' :
+        pocetKomentaru > 4? 'bylo napsáno ' + pocetKomentaru + ' komentářů' :
+        'byly napsány ' + pocetKomentaru + ' komentáře'}
+        </h4>
+    </hgroup>
+        <p>
+        <dl>
+            <dt>Nejnovější komentář</dt>
+            <dd>${nejnovejsiKomentar.autor} ke článku ${nejnovejsiKomentar.clanek.titulek}</dd>
+            <dt><a href="@{Admin.komentare()}">Administrace komentářů</a></dt>
+            <dd>&nbsp;</dd>
+        </dl>
+        </p>
+    #{/if}
+    #{else }
+        <h3 class="subheader">
+            Zatím žádný komentář
+        </h3>
+        </hgroup>
+    #{/else}
+
+    </li>
+
+
+    <li>
+    <hgroup>
+        <h3>Kategorie</h3>
+
+    #{if pocetKategorii}
+        <h4 class="subheader">
+              ${pocetKategorii < 5 && pocetKategorii > 1 ? 'Existují' : 'Existuje'} ${pocetKategorii} ${pocetKategorii < 5? 'kategorie' : 'kategorií'}
+        </h4>
+    </hgroup>
+        <p>
+        <dl>
+            <dt>Nejvíce článků v kategorii</dt>
+                <dd>${nejobsahlejsiKategorie.jmeno} (celkem ${clankuVKategorii} ${clankuVKategorii == 1 ? 'článek' : clankuVKategorii < 5 ? 'články' : 'článků'})</dd>
+            <dt><a href="@{Admin.kategorie()}">Administrace kategorií</a></dt>
+            <dd>&nbsp;</dd>
+        </dl>
+        </p>
+    #{/if}
+    #{else }
+        <h3 class="subheader">
+            Ještě nebyla vytvořena žádná kategorie.
+        </h3>
+        </hgroup>
+    #{/else}
+    </li>
+    <li>
+        <hgroup>
+            <h3>Uživatelský profil</h3>
+        </hgroup>
+        <p>
+        <dl>
+            <dt>Celé jméno</dt>
+            <dd>${uzivatel.celeJmeno}</dd>
+            <dt>E-mail</dt>
+            <dd>${uzivatel.email}</dd>
+            <dt><a href="@{Admin.profil()}">Upravit profil</a></dt>
+            <dd>&nbsp;</dd>
+        </dl>
+        </p>
+
+    </li>
+</ul>
