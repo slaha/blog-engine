@@ -1,0 +1,17 @@
+#{extends 'main.html' /}
+#{set title:'Úvodní stránka' /}
+
+#{if clanky}
+
+#{list items:clanky, as:'clanek'}
+    #{clanek clanek:clanek.key, as:'teaser' /}
+    ${clanek.value.toString().raw()}
+#{/list}
+
+
+#{/if}
+#{else}
+<div class="empty">
+    Nenalezeno
+</div>
+#{/else}

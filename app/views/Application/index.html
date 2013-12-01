@@ -1,22 +1,46 @@
 #{extends 'main.html' /}
 #{set title:'Úvodní stránka' /}
 
-#{if nejnovejsiClanek}
+#{if clanky}
 
-    #{clanek clanek:nejnovejsiClanek, as:'uvod' /}
+#{list items:clanky, as:'clanek'}
+    #{clanek clanek:clanek, as:'odstavec' /}
+#{/list}
 
-    #{if starsiClanky.size()}
 
-    <div class="older-posts">
-        <h3>Starší články</h3>
-
-        #{list items:starsiClanky, as:'starsi'}
-            #{clanek clanek:starsi, as:'teaser' /}
-        #{/list}
-    </div>
-
+<ul class="pagination">
+    <li class="prev">
+    #{if aktualniStranka > 1}
+    <a href="@{Application.index(aktualniStranka - 1)}">
     #{/if}
-
+    #{else }<q style="line-height: 2; margin-right: 15px;">#{/else}
+    ← Předchozí
+    #{if aktualniStranka > 1}
+    </a>
+    #{/if}
+    #{else }</q > #{/else }
+    </li>
+    #{list items:1..pocetStranek, as:'stranka'}
+        <li>
+            #{if aktualniStranka == stranka}<span>#{/if}
+            #{else}<a href="@{Application.index(stranka)}">#{/else}
+            ${stranka}
+            #{if aktualniStranka == stranka}</span>#{/if}
+            #{else}</a>#{/else}
+        </li>
+    #{/list}
+    <li class="next">
+    #{ifnot aktualniStranka == pocetStranek}
+    <a href="@{Application.index(aktualniStranka + 1)}">
+    #{/ifnot}
+    #{else }<q style="line-height: 2; margin-left: 15px;">#{/else}
+    Následující →
+    #{ifnot aktualniStranka == pocetStranek}
+    </a>
+    #{/ifnot}
+    #{else }</q > #{/else }
+    </li>
+</ul>
 #{/if}
 
 #{else}

@@ -1,9 +1,11 @@
 package models;
 
+import org.apache.commons.lang.StringUtils;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import play.modules.search.Field;
+import play.modules.search.Indexed;
 import utils.KomentarUtils;
-import utils.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,18 +14,23 @@ import java.util.List;
 
 /** Created with IntelliJ IDEA. User: slaha Date: 22.11.13 Time: 14:42 */
 @Entity
+@Indexed
 public class Clanek extends Model {
 
+	public static final String DELIC_ID = "text-delic";
+	public static final String P_DELIC = "<p id='" + DELIC_ID + "'>";
 	@Required
 	@ManyToOne
 	public Kategorie kategorie;
 
 	@Required
+	@Field
 	public String titulek;
 
     public Date datumNapsani;
 
     @Lob
+    @Field
     public String text;
 
     @ManyToOne
@@ -58,7 +65,22 @@ public class Clanek extends Model {
 	}
 
 	public String getUrl() {
-		return StringUtils.normalize(titulek, true);
+		return utils.StringUtils.normalize(titulek, true);
+	}
+
+	public String getOdstavec() {
+		final int delkaP = "</p>".length();
+
+		int index = text.indexOf(P_DELIC);
+		if (index < 0) {
+			return text;
+		}
+
+		return text.substring(0, index);
+	}
+
+	public boolean isJeDelsi() {
+		return text.contains(P_DELIC);
 	}
 
 	/*************************

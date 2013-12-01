@@ -41,6 +41,9 @@ public class Admin extends BlogApplicationBaseController {
 	public static void ulozitClanek(Long id, String titulek, String text, Long kategorieId) {
 	    Clanek clanek;
 		Kategorie kategorie = Kategorie.findById(kategorieId);
+
+		text = StringUtils.rozdel(text);
+
 	    if(id == null) {
 	        Uzivatel autor = Uzivatel.find("byEmail", Security.connected()).first();
 	        clanek = new Clanek(autor, titulek, text, kategorie);

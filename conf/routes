@@ -3,6 +3,7 @@
 # ~~~~
 
 # Home page
+GET     /{<[0-9]+>aktualniStranka}                      Application.index
 GET     /                                       Application.index
 GET     /kontakt                                Application.kontakt
 POST    /kontakt                                Application.kontaktOdeslat

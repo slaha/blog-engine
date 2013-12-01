@@ -69,6 +69,10 @@ ul.pagination {
 .margin-left-30 {
     margin-left: 40px;
 }
+
+#hledani {
+    float: right;
+}
 /* =Nav
 -----------------------------------------------------------------------------*/
 

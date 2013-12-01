@@ -4,4 +4,6 @@ require:
     - play
     - play -> crud
     - play -> secure
+    - play -> search head
     - play -> pdf 0.9
+

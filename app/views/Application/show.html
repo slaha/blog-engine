@@ -6,7 +6,7 @@
     <p class="success">${flash.success}</p>
 #{/if}
 
-#{clanek clanek:clanek, as:'full', predchozi:predchozi, nasledujici:nasledujici /}
+#{clanek clanek:clanek, as:'full', predchozi:predchozi, nasledujici:nasledujici, url:url /}
 
 #{form @Application.pridatKomentar(clanek.id), class:'forms forms-columnar'}
 

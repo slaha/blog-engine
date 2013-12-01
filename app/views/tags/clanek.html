@@ -19,7 +19,17 @@
     </div>
 #{if _as != 'teaser'}
     <div class="post-content">
+    #{if _as == 'odstavec'}
+    ${_clanek.odstavec.raw()}
+        #{if _clanek.jeDelsi}
+        <p>
+            <a href="@{Application.show(_clanek.id, _clanek.url)}#text-delic">Číst dál →</a>
+        </p>
+        #{/if}
+    #{/if}
+    #{else }
     ${_clanek.text.raw()}
+    #{/else}
     </div>
 #{/if}
 </div>
@@ -28,8 +38,9 @@
 <div class="text-centered">
     <a href="@{Application.tisk(_clanek.id)}" class="btn btn-yellow">Tisk</a>
     <a href="@{Application.pdf(_clanek.id)}" class="btn btn-black">Export PDF</a>
-    <a href="#" class="btn btn-blue">Twitter</a>
-    <a href="#" class="btn btn-red">G+</a>
+    <a href="https://twitter.com/intent/tweet?url=http://localhost&amp;text=${_clanek.titulek}&amp;via=slaha" class="btn btn-blue">Twitter</a>
+
+    <a href="https://plus.google.com/share?url=${_url}" class="btn btn-red">G+</a>
 
 </div>
 

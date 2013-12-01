@@ -20,7 +20,7 @@
 <body>
 <div class="units-row">
     <div class="unit-centered unit-70" id="content">
-        <div class="units-row-end">
+        <div class="unit-75">
             <div id="header">
                 <div id="title">
                     <hgroup>
@@ -29,6 +29,16 @@
                     </hgroup>
                 </div>
             </div>
+        </div>
+        <div>
+        #{form @Application.hledat(), class:'forms',id:'hledani'}
+            <label>
+		            <span class="btn-group">
+			            <input name="hledat" type="text" size="20">
+			            <button class="btn">Hledat</button>
+		            </span>
+            </label>
+        #{/form}
         </div>
 
         <div class="units-row-end">
@@ -39,6 +49,7 @@
             <div class="unit-20">
                 <nav class="nav-v">
                     <ul>
+                        <li><a href="@{Application.index()}">Úvodní stránka</a></li>
                         #{list items:vsechnyKategorie, as:'kat'}
                         <li><a href="@{Application.kategorie(kat.url)}">${kat}</a></li>
                         #{/list}
@@ -74,5 +85,8 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.3.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/kube.buttons.js'}"></script>
+<script type="text/javascript" src="@{'/public/javascripts/kube.tabs.js'}"></script>
 </body>
 </html>
