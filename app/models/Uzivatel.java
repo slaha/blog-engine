@@ -81,6 +81,10 @@ public class Uzivatel extends Model {
 	}
 
 	public void nastavHeslo(String noveHeslo) {
-		this.heslo = BCrypt.hashpw(heslo, salt.getSalt());
+		this.heslo = BCrypt.hashpw(noveHeslo, salt.getSalt());
+	}
+
+	public String hashPassword(String heslo) {
+		return BCrypt.hashpw(heslo, salt.getSalt());
 	}
 }

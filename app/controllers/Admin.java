@@ -1,8 +1,12 @@
 package controllers;
 
+import jobs.Bootstrap;
 import models.*;
+import org.apache.commons.lang.BooleanUtils;
+import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
-import play.data.validation.Validation;
+import play.data.validation.*;
+import play.data.validation.Error;
 import play.db.jpa.GenericModel;
 import play.db.jpa.JPABase;
 import play.mvc.With;
@@ -264,33 +268,39 @@ public class Admin extends BlogApplicationBaseController {
 	 *
 	 * PROFIL
 	 *
-	 ***************************************/
+	 **************************************/
 
-	public static void profil() {
-		render();
+	public static void profil(Boolean zmenitHeslo) {
+		render(zmenitHeslo);
 	}
 
 	public static void ulozitProfil(String jmeno,
 	                                String email,
 	                                String heslo,
 	                                String noveHeslo,
-	                                String noveHeslo2) {
+	                                String noveHeslo2,
+	                                Boolean zmenitHeslo) {
 
-
-		System.out.println(jmeno +" -- " +  email +" -- " +  heslo +" -- " +  noveHeslo +" -- " +  noveHeslo2);
 
 		Uzivatel uzivatel = Uzivatel.find("byEmail", Security.connected()).first();
 		uzivatel.celeJmeno = jmeno;
 
 		boolean zmenaEmail = false;
+		if (Bootstrap.DEFAULT_EMAIL.equals(email)) {
+			Validation.addError("uzivatel.email", "Zvolte jiný než výchozí e-mail");
+		}
 		if (!uzivatel.email.equals(email)) {
 			//..musi se promitnout i do Security
 			zmenaEmail = true;
 		}
 		uzivatel.email = email;
 
-		if (StringUtils.isAtLeastOneNotNullAndNotEmpty(heslo, noveHeslo, noveHeslo2)) {
-			validation.equals(heslo, uzivatel.heslo);
+		if (BooleanUtils.toBoolean(zmenitHeslo)) {
+			String hashed = uzivatel.hashPassword(heslo);
+			validation.required(heslo);
+			validation.required(noveHeslo);
+			validation.required(noveHeslo2);
+			validation.equals(hashed, uzivatel.heslo);
 			validation.equals(noveHeslo2, noveHeslo );
 
 			if (!Validation.hasErrors()) {
@@ -301,7 +311,7 @@ public class Admin extends BlogApplicationBaseController {
 		validation.valid(uzivatel);
 		if (Validation.hasErrors()) {
 			flash.error("Chyba při ukládání profilu");
-			render("@profil", uzivatel);
+			render("@profil", uzivatel, zmenitHeslo);
 		}
 
 		uzivatel.save();
@@ -311,6 +321,6 @@ public class Admin extends BlogApplicationBaseController {
 			session.put("username", email);
 		}
 
-		profil();
+		profil(null);
 	}
 }

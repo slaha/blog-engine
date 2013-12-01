@@ -11,16 +11,13 @@
 <script type="text/javascript">
     $(document).ready(function() {
 
-        $('#zmenit-heslo').change(function(){
+        $('#zmenitHeslo').change(function(){
 
-            var dis =  ($('#zmenit-heslo').is(':checked') == false);
+            var dis =  ($('#zmenitHeslo').is(':checked') == false);
             $('#heslo').prop('disabled', dis);
             $('#noveHeslo').prop('disabled', dis);
             $('#noveHeslo2').prop('disabled', dis);
-
         });
-
-
     });
 </script>
 
@@ -29,24 +26,30 @@
     <p>
         #{field 'jmeno'}
             <label>Celé jméno:</label>
-                <input type="text" name="${field.name}" id="${field.name}" value="${uzivatel?.celeJmeno}" class='width-100 #{ifError field.name}input-error#{/ifError}'/>
+                <input type="text" name="${field.name}" id="${field.name}" value="${uzivatel?.celeJmeno}" class='width-100 #{ifError 'uzivatel.celeJmeno'}input-error#{/ifError}'/>
+                #{ifError 'uzivatel.celeJmeno'}
+                <span class="error">#{error 'uzivatel.celeJmeno' /}</span>
+                #{/ifError}
         #{/field}
     </p>
     <p>
         #{field 'email'}
             <label>E-mail:</label>
-                <input type="text" name="${field.name}" id="${field.name}" value="${uzivatel?.email}" class='width-100 #{ifError field.name}input-error#{/ifError}'/>
+                <input type="text" name="${field.name}" id="${field.name}" value="${uzivatel?.email}" class='width-100 #{ifError 'uzivatel.email'}input-error#{/ifError}'/>
+                #{ifError 'uzivatel.email'}
+                <span class="error">#{error 'uzivatel.email' /}</span>
+                #{/ifError}
         #{/field}
     </p>
 
     <p>
-        <input id="zmenit-heslo" name="zmenit-heslo" type="checkbox"> <label>Změnit heslo</label></li>
+        <input id="zmenitHeslo" name="zmenitHeslo" type="checkbox" #{if zmenitHeslo}checked="checked"#{/if}> <label>Změnit heslo</label></li>
     </p>
 
     <p>
         #{field 'heslo'}
             <label>Stávající heslo:</label>
-            <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}' disabled/>
+            <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}' #{ifnot zmenitHeslo}disabled#{/ifnot} />
             #{ifError field.name}
             <span class="error">Zadejte současné heslo</span>
             #{/ifError}
@@ -56,16 +59,19 @@
     <p>
         #{field 'noveHeslo'}
             <label>Nové heslo:</label>
-                <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}' disabled/>
+                <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}' #{ifnot zmenitHeslo}disabled#{/ifnot} />
+                #{ifError field.name}
+                <span class="error">#{error field.name /}</span>
+                #{/ifError}
         #{/field}
     </p>
 
     <p>
         #{field 'noveHeslo2'}
             <label>Nové heslo znovu:</label>
-                <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}' disabled/>
+                <input type="password" name="${field.name}" id="${field.name}" value="" class='width-100 #{ifError field.name}input-error#{/ifError}' #{ifnot zmenitHeslo}disabled#{/ifnot} />
                 #{ifError field.name}
-                <span class="error">Heslo neodpovídá novému heslu</span>
+                <span class="error">#{error field.name /}</span>
                 #{/ifError}
         #{/field}
     </p>
