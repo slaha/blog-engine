@@ -1,9 +1,14 @@
 <div class="clanek ${_as == 'teaser' ? 'teaser' : ''}">
-    #{if _as == 'full'}<h1 class="post-title">#{/if}
-    #{else }<h2 class="post-title">#{/else}
+    #{if _as == 'full'}
+    <h1 class="post-title">
         <a href="@{Application.show(_clanek.id, _clanek.url)}">${_clanek.titulek}</a>
-    #{if _as == 'full'}</h1>#{/if}
-    #{else }</h2>#{/else}
+    </h1>
+    #{/if}
+    #{else }
+    <h2 class="post-title">
+        <a href="@{Application.show(_clanek.id, _clanek.url)}">${_clanek.titulek}</a>
+    </h2>
+    #{/else}
     <div class="post-metadata">
         <i class="fa fa-pencil"></i> ${_clanek.autor.celeJmeno}&nbsp;|&nbsp;<i class="fa fa-calendar"></i> ${_clanek.datumNapsani.format('dd. MMMM yyyy')}
     #{if _as != 'full'}
@@ -38,10 +43,22 @@
 <div class="text-centered">
     <a href="@{Application.tisk(_clanek.id)}" class="btn btn-yellow">Tisk</a>
     <a href="@{Application.pdf(_clanek.id)}" class="btn btn-black">Export PDF</a>
-    <a href="https://twitter.com/intent/tweet?url=http://localhost&amp;text=${_clanek.titulek}&amp;via=slaha" class="btn btn-blue">Twitter</a>
+    <script>
+        document.write('<a href="https://twitter.com/intent/tweet?url=');
 
-    <a href="https://plus.google.com/share?url=${_url}" class="btn btn-red">G+</a>
+        document.write(window.location.href);
 
+        document.write('&amp;via=slaha" class="btn btn-blue">Twitter</a> ');
+
+
+
+        document.write('<a href="https://plus.google.com/share?url=');
+
+        document.write(window.location.href);
+
+        document.write('" class="btn btn-red">G+</a>');
+
+    </script>
 </div>
 
 <ul class="pagination">
@@ -61,7 +78,11 @@
     </h3>
 
     #{list items:_clanek.komentare, as:'komentar'}
+
         <section class="caption group" id="komentar${komentar_index}">
+            #{if komentar_isLast}
+                #{include '_flash.html'/}
+            #{/if}
             <div class="question bubble">
                 <div class="komentar-cislo">${komentar_index}</div>
                 ${komentar.komentar.raw()}

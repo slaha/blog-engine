@@ -3,6 +3,7 @@ package controllers;
 import models.Clanek;
 import models.Kategorie;
 import models.VysledekVyhledavani;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.mail.EmailException;
 import play.Play;
 import play.cache.Cache;
@@ -12,14 +13,12 @@ import play.libs.Codec;
 import play.libs.Images;
 import play.modules.search.Query;
 import play.modules.search.Search;
-import play.mvc.Http;
 import play.mvc.Router;
+import utils.BlogStringUtils;
 import utils.MailSender;
-import utils.StringUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,9 +37,13 @@ public class Application extends BlogApplicationBaseController {
 			index(1);
 		}
 
-		int pocetStranek = (int) Math.ceil(Clanek.count() / (double)CLANKU_NA_STRANKU);
-		if (aktualniStranka > pocetStranek) {
-			index(pocetStranek);
+		final long pocetClanku = Clanek.count();
+		int pocetStranek = 1;
+		if (pocetClanku > 0) {
+			pocetStranek = (int) Math.ceil(pocetClanku / (double)CLANKU_NA_STRANKU);
+			if (aktualniStranka > pocetStranek) {
+				index(pocetStranek);
+			}
 		}
 		int _z = (aktualniStranka - 1) * (int)CLANKU_NA_STRANKU;
 		int _do = (int)CLANKU_NA_STRANKU;
@@ -108,6 +111,13 @@ public class Application extends BlogApplicationBaseController {
 	}
 
 	public static void hledat(String hledat) {
+
+
+		if (StringUtils.isBlank(hledat)) {
+			Validation.addError("hledani", "Musíte zadat řetězec, který má být vyhledán. Nesmí být prázdný.");
+			render();
+		}
+
 		Query q = Search.search(hledat, Clanek.class);
 
 		List<Clanek> vysledky = q.fetch();
@@ -116,7 +126,8 @@ public class Application extends BlogApplicationBaseController {
 		for (Clanek clanek : vysledky) {
 			clanky.put(clanek, new VysledekVyhledavani(clanek, hledat));
 		}
-		render(clanky);
+		render(clanky, hledat);
+
 	}
 
 	public static void tisk(Long id) {
@@ -136,7 +147,7 @@ public class Application extends BlogApplicationBaseController {
 			logAndDisplayError("Článek s id %d nebyl nalezen v databázi", id);
 		}
 
-		String title = StringUtils.normalize(clanek.titulek, false);
+		String title = BlogStringUtils.normalize(clanek.titulek, false);
 		Options options = new Options();
 		options.filename = title + ".pdf";
 

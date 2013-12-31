@@ -8,3 +8,33 @@
 19:42:35,403 WARN  ~ Messages file missing for locale en
 19:42:35,405 INFO  ~ Application 'blog' is now started !
 19:42:35,620 INFO  ~ Listening for HTTP on port 9000 ...
+14:31:36,729 INFO  ~ Starting /media/disk/skola/db_apps/blog-engine
+14:31:36,732 INFO  ~ Module secure is available (/media/disk/skola/rocnikovy_projekt/projekt/play/modules/secure)
+14:31:36,733 INFO  ~ Module crud is available (/media/disk/skola/rocnikovy_projekt/projekt/play/modules/crud)
+14:31:36,733 INFO  ~ Module pdf is available (/media/disk/skola/rocnikovy_projekt/projekt/play/modules/pdf-0.9)
+14:31:36,734 INFO  ~ Module search is available (/media/disk/skola/rocnikovy_projekt/projekt/play/modules/search-head)
+14:31:37,026 INFO  ~ Precompiling ...
+14:31:47,852 INFO  ~ Connected to jdbc:h2:/media/disk/skola/db_apps/blog-engine/db/h2/play;MODE=MYSQL
+14:31:48,677 WARN  ~ Messages file missing for locale en
+14:31:48,692 INFO  ~ Application 'blog' is now started !
+14:31:48,964 INFO  ~ Listening for HTTP on port 9000 ...
+14:36:52,401 INFO  ~ Starting /media/disk/skola/db_apps/blog-engine
+14:36:52,404 INFO  ~ Module secure is available (/media/disk/skola/rocnikovy_projekt/projekt/play/modules/secure)
+14:36:52,405 INFO  ~ Module crud is available (/media/disk/skola/rocnikovy_projekt/projekt/play/modules/crud)
+14:36:52,405 INFO  ~ Module pdf is available (/media/disk/skola/rocnikovy_projekt/projekt/play/modules/pdf-0.9)
+14:36:52,406 INFO  ~ Module search is available (/media/disk/skola/rocnikovy_projekt/projekt/play/modules/search-head)
+14:36:52,525 INFO  ~ Precompiling ...
+14:37:02,169 INFO  ~ Connected to jdbc:h2:/media/disk/skola/db_apps/blog-engine/db/h2/play;MODE=MYSQL
+14:37:02,721 WARN  ~ Messages file missing for locale en
+14:37:02,723 INFO  ~ Application 'blog' is now started !
+14:37:02,939 INFO  ~ Listening for HTTP on port 9000 ...
+14:37:29,328 INFO  ~ Starting /media/disk/skola/db_apps/blog-engine
+14:37:29,331 INFO  ~ Module secure is available (/media/disk/skola/rocnikovy_projekt/projekt/play/modules/secure)
+14:37:29,332 INFO  ~ Module crud is available (/media/disk/skola/rocnikovy_projekt/projekt/play/modules/crud)
+14:37:29,332 INFO  ~ Module pdf is available (/media/disk/skola/rocnikovy_projekt/projekt/play/modules/pdf-0.9)
+14:37:29,332 INFO  ~ Module search is available (/media/disk/skola/rocnikovy_projekt/projekt/play/modules/search-head)
+14:37:29,867 WARN  ~ You're running Play! in DEV mode
+14:37:29,947 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
+14:38:29,211 INFO  ~ Connected to jdbc:h2:/media/disk/skola/db_apps/blog-engine/db/h2/play;MODE=MYSQL
+14:38:29,918 WARN  ~ Messages file missing for locale en
+14:38:29,919 INFO  ~ Application 'blog' is now started !

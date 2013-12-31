@@ -2,7 +2,13 @@
 #{set title:'Úvodní stránka' /}
 
 #{if clanky}
+    <h2>
+        Výborně, ${clanky.size() == 1 ? 'byl nalezen' : clanky.size() < 5 ? 'byly nalezeny' : 'bylo nalezeno' }
+        ${clanky.size()}
+        ${clanky.size() == 1 ? 'článek' : clanky.size() < 5 ? 'články' : 'článků' }
+        obsahující frázi "${hledat}"
 
+    </h2>
 #{list items:clanky, as:'clanek'}
     #{clanek clanek:clanek.key, as:'teaser' /}
     ${clanek.value.toString().raw()}
@@ -10,8 +16,22 @@
 
 
 #{/if}
+#{elseif errors}
+<h2>
+    Chyba!
+</h2>
+<p class="error">
+    #{error "hledani" /}
+</p>
+
+#{/elseif}
 #{else}
 <div class="empty">
-    Nenalezeno
+    <h2>
+       Nic nebylo nalezeno
+    </h2>
+    <p>
+        Nebyly nalezeny žádné články obsahující text <mark>"${hledat}"</mark>.
+    </p>
 </div>
 #{/else}

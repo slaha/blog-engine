@@ -3,7 +3,7 @@ package models;
 import play.data.validation.Required;
 import play.data.validation.Unique;
 import play.db.jpa.Model;
-import utils.StringUtils;
+import utils.BlogStringUtils;
 
 import javax.persistence.Entity;
 import java.util.List;
@@ -30,7 +30,17 @@ public class Kategorie extends Model {
 
 	public void setJmeno(String jmeno) {
 		this.jmeno = jmeno;
-		this.url = StringUtils.normalize(jmeno, true);
+		final String url = BlogStringUtils.normalize(jmeno, true);
+		this.url = url;
+		boolean exists;
+		int id = 0;
+		do {
+			Kategorie k = find("byUrl", this.url).first();
+			exists = ( k != null );
+			if (exists) {
+				this.url = url + "_" + (++id);
+			}
+		} while (exists);
 	}
 
 	public String getUrl() {

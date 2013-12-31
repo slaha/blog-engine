@@ -1,9 +1,6 @@
 #{extends 'main.html' /}
 #{set title:clanek.titulek /}
 
-
-#{include '_flash.html'/}
-
 #{clanek clanek:clanek, as:'full', predchozi:predchozi, nasledujici:nasledujici, url:url /}
 
 #{form @Application.pridatKomentar(clanek.id), class:'forms forms-columnar'}

@@ -3,14 +3,12 @@ package controllers;
 import jobs.Bootstrap;
 import models.*;
 import org.apache.commons.lang.BooleanUtils;
-import org.mindrot.jbcrypt.BCrypt;
 import play.Logger;
-import play.data.validation.*;
-import play.data.validation.Error;
+import play.data.validation.Validation;
 import play.db.jpa.GenericModel;
 import play.db.jpa.JPABase;
 import play.mvc.With;
-import utils.StringUtils;
+import utils.BlogStringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,17 +21,17 @@ public class Admin extends BlogApplicationBaseController {
 		long pocetClanku = Clanek.count();
 		long pocetKomentaru = Komentar.count();
 		long pocetKategorii = Kategorie.count();
-		Clanek nejnovejsiClanek = Clanek.find("order by datumNapsani").first();
-		Komentar nejnovejsiKomentar = Komentar.find("order by datumPoslani").first();
-		Object[] clankyKategorie = Clanek.find("select kategorie, count(c) from Clanek c group by c.kategorie order by count(c) desc").first();
+		Clanek nejnovejsiClanek = Clanek.find("order by datumNapsani desc").first();
+		Komentar nejnovejsiKomentar = Komentar.find("order by datumPoslani desc").first();
+		Object[] clankyKategorie = Clanek.find("select kategorie.id, count(c) from Clanek c group by c.kategorie.id order by count(c) desc").first();
 
 		Kategorie nejobsahlejsiKategorie = null;
 		Long clankuVKategorii = null;
 		if (clankyKategorie != null && clankyKategorie.length >= 2) {
-			nejobsahlejsiKategorie = (Kategorie) clankyKategorie[0];
+			nejobsahlejsiKategorie = Kategorie.findById(clankyKategorie[0]);
 			clankuVKategorii = (Long) clankyKategorie[1];
 		}
-		System.out.println("NK: "  + nejobsahlejsiKategorie);
+
 		render(pocetClanku, pocetKomentaru, pocetKategorii, nejnovejsiClanek, nejnovejsiKomentar, nejobsahlejsiKategorie, clankuVKategorii);
 	}
 
@@ -60,7 +58,7 @@ public class Admin extends BlogApplicationBaseController {
 	    Clanek clanek;
 		Kategorie kategorie = Kategorie.findById(kategorieId);
 
-		text = StringUtils.rozdel(text);
+		text = BlogStringUtils.rozdel(text, Clanek.P_DELIC);
 
 	    if(id == null) {
 	        Uzivatel autor = Uzivatel.find("byEmail", Security.connected()).first();
@@ -210,7 +208,7 @@ public class Admin extends BlogApplicationBaseController {
 	public static void kategorie() {
 		//List<Kategorie> kategorie = Kategorie.findAll();
 		List<Map> kategorie = Kategorie.find(
-            "select new map(k.jmeno as jmeno, count(c.id) as pocet, k.id as id, k.url as url) from Clanek c right join c.kategorie as k group by k.jmeno order by pocet"
+            "select new map(k.jmeno as jmeno, count(c.id) as pocet, k.id as id, k.url as url) from Clanek c right join c.kategorie as k group by k.jmeno, k.id order by pocet"
             ).fetch();
 		render(kategorie);
 	}

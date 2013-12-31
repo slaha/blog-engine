@@ -1,10 +1,11 @@
 package models;
 
-import org.apache.commons.lang.StringUtils;
+import org.hibernate.annotations.Type;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 import play.modules.search.Field;
 import play.modules.search.Indexed;
+import utils.BlogStringUtils;
 import utils.KomentarUtils;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ public class Clanek extends Model {
 
 	public static final String DELIC_ID = "text-delic";
 	public static final String P_DELIC = "<p id='" + DELIC_ID + "'>";
+
 	@Required
 	@ManyToOne
 	public Kategorie kategorie;
@@ -27,13 +29,16 @@ public class Clanek extends Model {
 	@Field
 	public String titulek;
 
+	@Required
     public Date datumNapsani;
 
     @Lob
     @Field
+    @Type(type = "org.hibernate.type.TextType")
     public String text;
 
     @ManyToOne
+    @Required
     public Uzivatel autor;
 
 	@OneToMany(mappedBy="clanek", cascade= CascadeType.ALL)
@@ -65,7 +70,7 @@ public class Clanek extends Model {
 	}
 
 	public String getUrl() {
-		return utils.StringUtils.normalize(titulek, true);
+		return BlogStringUtils.normalize(titulek, true);
 	}
 
 	public String getOdstavec() {

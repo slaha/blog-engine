@@ -1,7 +1,10 @@
 package models;
 
+import net.sf.oval.constraint.MaxLength;
+import org.hibernate.annotations.Type;
 import play.data.validation.Required;
 import play.db.jpa.Model;
+import play.modules.search.Field;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
@@ -12,11 +15,17 @@ import java.util.Date;
 @Entity
 public class Komentar extends Model {
 
+	@Required
 	public String autor;
 
+	@Required
     public Date datumPoslani;
 
+    @Required
     @Lob
+    @Field
+    @Type(type = "org.hibernate.type.TextType")
+    @MaxLength(1500)
     public String komentar;
 
     @ManyToOne
