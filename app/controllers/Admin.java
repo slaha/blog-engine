@@ -2,20 +2,29 @@ package controllers;
 
 import jobs.Bootstrap;
 import models.*;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.BooleanUtils;
 import play.Logger;
+import play.data.validation.Required;
 import play.data.validation.Validation;
 import play.db.jpa.GenericModel;
 import play.db.jpa.JPABase;
 import play.mvc.With;
 import utils.BlogStringUtils;
+import utils.ImageUtils;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 @With(Secure.class)
 public class Admin extends BlogApplicationBaseController {
-
+	private static final String IMAGE_FOLDER = "public/images/imgs/";
 
 	public static void index() {
 		long pocetClanku = Clanek.count();
@@ -47,11 +56,12 @@ public class Admin extends BlogApplicationBaseController {
 
 
 	public static void formClanek(Long id) {
+		List<String[]> soubory = getAllFiles();
 	    if(id != null) {
 	        Clanek clanek = Clanek.findById(id);
-	        render(clanek);
+	        render(clanek, soubory);
 	    }
-	    render();
+	    render(soubory);
 	}
 
 	public static void ulozitClanek(Long id, String titulek, String text, Long kategorieId) {
@@ -320,5 +330,72 @@ public class Admin extends BlogApplicationBaseController {
 		}
 
 		profil(null);
+	}
+
+	public static void uploadImage(@Required File soubor) {
+		String msg;
+		if (soubor != null) {
+			String jmeno = soubor.getName();
+			if (!jmeno.contains(".")) {
+				logAndDisplayJsonError("Soubor %s nemá příponu. Takový obrázek není možné nahrát", jmeno);
+			}
+			jmeno = System.currentTimeMillis() + "_" + BlogStringUtils.normalize(soubor.getName(), true);
+
+			File cilovySoubor = new File(IMAGE_FOLDER + jmeno);
+			File zmenseninaSoubor = null;
+			try {
+				FileUtils.copyFile(soubor, cilovySoubor);
+
+				BufferedImage zmensenina = ImageUtils.scale(cilovySoubor);
+					if (zmensenina != null) {
+						zmenseninaSoubor = ImageUtils.write(zmensenina, cilovySoubor, IMAGE_FOLDER, ".scaled");
+					}
+
+				boolean zmenseninaOk = zmenseninaSoubor != null;
+				msg = String.format("Soubor %s byl úspěšně nahrán jako %s. "
+					+ "Do stránky jej můžete vložit pomocí cesty: %s. "
+					+ (zmenseninaOk ? "Zmenšenina je na adrese: %s" : "Nepodařilo se však zmenšit obrázek.%s"),
+					soubor.getName(),
+					cilovySoubor.getName(),
+					getPathToFile(cilovySoubor.getName()),
+					(zmenseninaOk ? getPathToFile(zmenseninaSoubor.getName()) : "")
+				);
+				flash.success(msg);
+				Map<String, String> m = new HashMap<String, String>();
+				m.put("msg", msg);
+				m.put("scaled", (zmenseninaOk ? getPathToFile(zmenseninaSoubor.getName()) : ""))    ;
+				m.put("img", getPathToFile(cilovySoubor.getName()));
+				m.put("jmeno", jmeno.substring(jmeno.indexOf('_') + 1));
+				renderJSON(m);
+			} catch (IOException e) {
+				logAndDisplayJsonError("Nepodařilo se nahrát soubor, protože %s", e.getMessage());
+			}
+
+		}
+		msg = "Žádný obrázek nebyl vybrán";
+		logAndDisplayJsonError(msg);
+	}
+
+	private static String getPathToFile(String file) {
+		return '/' + IMAGE_FOLDER + file;
+	}
+	private static List<String[]> getAllFiles() {
+		File dir = new File(IMAGE_FOLDER);
+		String[] soubory = dir.list(new FilenameFilter() {
+			@Override
+			public boolean accept(File f, String name) {
+
+				return name.contains(".scaled");
+			}
+		});
+
+		List<String[]> files = new ArrayList<String[]>();
+		for (int index = 0; index < soubory.length; index++) {
+			files.add(
+				new String[] {
+					getPathToFile(soubory[index]),
+					getPathToFile(soubory[index].replace(".scaled", "")) });
+		}
+		return files;
 	}
 }

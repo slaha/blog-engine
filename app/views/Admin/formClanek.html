@@ -26,25 +26,26 @@
         </label>
     #{/field}
 </p>
-<script type="text/javascript" src="@{'/public/javascripts/tinymce/tinymce.min.js'}"></script>
-<script type="text/javascript">
-tinymce.init({
-    selector: "textarea",
-    height: 400,
-    entity_encoding : "raw"
- });
-</script>
+<script type="text/javascript" src="@{'/public/javascripts/ckeditor/ckeditor.js'}"></script>
+
 <p>
     #{field 'text'}
         <label>Text článku:
-            <textarea name="${field.name}">
+            <textarea id="text" name="${field.name}" rows="25" cols="80">
             ${clanek?.text}
             </textarea>
             <span class="error">#{error 'clanek.text' /}</span>
         </label>
     #{/field}
 </p>
+<script>
+    CKEDITOR.replace( 'text' );
 
+    CKEDITOR.editorConfig = function( config ) {
+        config.language = 'cs';
+        config.uiColor = '#AADC6E';
+};
+</script>
 <p>
     #{field 'kategorieId'}
         <label>Kategorie:
@@ -58,3 +59,119 @@ tinymce.init({
 </p>
 
 #{/form}
+
+<h3>Soubory</h3>
+
+<h4>Soubory již nahrané na disku</h4>
+<table id="soubory">
+    <thead>
+        <tr>
+            <td>Náhled</td>
+            <td>Jméno</td>
+            <td>Cesty</td>
+        </tr>
+    </thead>
+#{list soubory, as:'soubor'}
+    <tr>
+        <td>
+            <a href="${soubor[1]}">
+                <img src="${soubor[0]}" style="max-height: 100px; max-width: 100px">
+            </a>
+        </td>
+        <td>${soubor[1].substring(soubor[1].indexOf("_") + 1)}</td>
+        <td><code>${soubor[0]}</code><br><code>${soubor[1]}</code></td>
+    </tr>
+#{/list}
+</table>
+
+
+<style>
+    .invisible { display: none; }
+    .visible { display: block; }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        $('.close').click(function(){
+
+            $('.close').closest("div").hide();
+        });
+
+
+    });
+</script>
+
+<h4>Nahrát nový soubor</h4>
+
+<div id="msg-box" class="message invisible">
+    <span class="close"></span>
+    <span id="msg-text"></span>
+</div>
+
+#{form @Admin.uploadImage(), enctype:'multipart/form-data', method:'POST', name:'multiform', id:'multiform', class:'forms forms-inline'}
+<div class="units-row">
+    <label>Soubor:<br>
+        <input type="file" id="soubor" name="soubor" class="width-40 btn" />
+    </label>
+
+    <input type="submit" value="Nahrát" class="btn" />
+</div>
+#{/}
+<script type="text/javascript">
+    $("#multiform").submit(function(e)
+    {
+
+        var formObj = $(this);
+        var formURL = formObj.attr("action");
+        var formData = new FormData(this);
+        $.ajax({
+            url: formURL,
+            type: 'POST',
+            data:  formData,
+            mimeType:"multipart/form-data",
+            contentType: false,
+            cache: false,
+            processData:false,
+            success: function(data, textStatus, jqXHR)
+            {
+
+                $("#soubor").val("");
+                $("#msg-box").addClass("message-success");
+                $("#msg-box").removeClass("message-error");
+                $("#msg-box").removeClass("invisible");
+                $("#msg-box").addClass("visible");
+                $("#msg-text").empty();
+                var json = jQuery.parseJSON(data);
+                $("#msg-text").append(json.msg);
+
+                var row = '<tr><td><a href="';
+                row = row + json.img;
+                row = row + '"><img src="';
+                row = row + json.scaled;
+                row = row + '" style="max-height: 100px; max-width: 100px"></a></td><td>';
+                row = row + json.jmeno;
+                row = row + '</td><td><code>';
+                row = row + json.scaled;
+                row = row + '</code><br><code>';
+                row = row + json.img;
+                row = row + '</code></td></tr>';
+
+                $("#soubory").append(row);
+
+            },
+            error: function(request, textStatus, errorThrown)
+            {
+
+                $("#soubor").val("");
+                $("#msg-box").addClass("message-error");
+                $("#msg-box").removeClass("message-success");
+                $("#msg-box").removeClass("invisible");
+                $("#msg-box").addClass("visible");
+                $("#msg-text").empty();
+                $("#msg-text").append(request.responseText);
+            }
+        });
+        e.preventDefault(); //Prevent Default action.
+    });
+</script>

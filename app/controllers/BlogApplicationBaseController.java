@@ -7,8 +7,6 @@ import play.Play;
 import play.mvc.Before;
 import play.mvc.Controller;
 
-import java.util.Collection;
-
 /** Created with IntelliJ IDEA. User: slaha Date: 22.11.13 Time: 15:38 */
 public abstract class BlogApplicationBaseController extends Controller {
 
@@ -28,5 +26,12 @@ public abstract class BlogApplicationBaseController extends Controller {
 		String str = String.format(message, args);
 		Logger.error(str);
 		error(str);
+	}
+
+	protected static void logAndDisplayJsonError(String message, Object...args) {
+		String str = String.format(message, args);
+		Logger.error(str);
+		response.status = 500;
+		renderJSON(str);
 	}
 }
